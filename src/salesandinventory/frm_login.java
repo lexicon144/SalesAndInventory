@@ -56,9 +56,9 @@ public class frm_login extends javax.swing.JFrame {
             }
         });
 
-        txtUsername.setText("jTextField1");
+        txtUsername.setText("root");
 
-        txtPassword.setText("jTextField2");
+        txtPassword.setText("iamgroot");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setText("Authentication");
@@ -101,29 +101,29 @@ public class frm_login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        sql = "SELECT ('Username','Password') FROM user_reg WHERE Username = '" + user_txt + "' AND Password = '" + pass_txt + "'";
+        user_txt = txtUsername.getText();
+        pass_txt = txtPassword.getText();
+        sql = "SELECT * FROM user_reg WHERE (Username = '" + user_txt + "' AND Password = '" + pass_txt + "')";
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot");
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            user_txt = txtUsername.getText();
-            pass_txt = txtPassword.getText();
-            
-            while(rs.next()){
-                user_db = rs.getString("Username");
-                pass_db = rs.getString("Password");
-            }
-            if ((user_txt.equals(user_db)) && (pass_txt.equals(pass_db))){
-                JOptionPane.showMessageDialog(this, "Connected to DB");
-                 frm_mainmenu openMainMenu = new frm_mainmenu();
-                openMainMenu.setVisible(true);
-                dispose();
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Incorrect Password");
-               
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                
+                while(rs.next()){
+                    user_db = rs.getString("Username");
+                    pass_db = rs.getString("Password");
+                }
+                if ((user_txt.equals(user_db)) && (pass_txt.equals(pass_db))){
+                    JOptionPane.showMessageDialog(this, "Connected to DB");
+                    frm_mainmenu openMainMenu = new frm_mainmenu();
+                    openMainMenu.setVisible(true);
+                    dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Incorrect Password");
+                    
+                }
             }
         }catch(ClassNotFoundException | SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(this, e.getMessage());

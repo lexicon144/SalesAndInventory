@@ -9,6 +9,7 @@ import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.util.Random;
@@ -17,7 +18,8 @@ import java.util.Random;
  *
  * @author John
  */
-public class frm_EmpForm extends javax.swing.JFrame {
+public final class frm_EmpForm extends javax.swing.JFrame {
+ResultSet rs;
 int userId = 0;
 String sql = "", 
         fname = "",
@@ -37,6 +39,7 @@ String sql = "",
      */
     public frm_EmpForm() {
         initComponents();
+        RNGMaker();
     }
 
     public void objectParser(){
@@ -53,10 +56,42 @@ String sql = "",
         password = txtPassword.getText();
     }
     
+    public void transferDataToTextField(){
+        txtFirstName.setText(fname);
+        txtMiddleName.setText(mname);
+        txtLastName.setText(lname);
+        txtAddress.setText(address);
+        txtBirthDate.setText(birthday);
+        txtBirhtPlace.setText(birthplace);
+        txtEmailAddress.setText(email);
+        btnContactNumber.setText(contactnum);
+        txtUsername.setText(username);
+        txtPassword.setText(password);
+    }
+    
+    public void db2objectParser(){
+        try{
+        fname = rs.getString("user_FirstName");
+        mname = rs.getString("user_MiddleName");
+        lname = rs.getString("user_LastName");
+        gender = rs.getString("user_Gender");
+        birthday = rs.getString("user_Birthdate");
+        birthplace = rs.getString("user_BirthPlace");
+        address = rs.getString("user_Address");
+        email = rs.getString("user_Email");
+        contactnum = rs.getString("user_ContactNumber");
+        username = rs.getString("Username");
+        password = rs.getString("Password");
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "problem @ public void db2objectParser(); >>> " + e);
+        }
+    }
+    
     public void RNGMaker(){
         Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(999999);
+        int randomInt = randomGenerator.nextInt(999999999);
         userId = randomInt;
+        txtUserID.setText(Integer.toString(userId));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,7 +134,9 @@ String sql = "",
         jLabel11 = new javax.swing.JLabel();
         rdAdmin = new javax.swing.JRadioButton();
         rdEmp = new javax.swing.JRadioButton();
+        txtUserID = new javax.swing.JLabel();
         txtSearchID = new javax.swing.JTextField();
+        btnSearchID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -111,7 +148,7 @@ String sql = "",
             }
         });
         getContentPane().add(btnInsert);
-        btnInsert.setBounds(330, 50, 127, 26);
+        btnInsert.setBounds(330, 70, 127, 26);
 
         btnUpdateUserInfo.setText("Update User Info");
         btnUpdateUserInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -120,11 +157,11 @@ String sql = "",
             }
         });
         getContentPane().add(btnUpdateUserInfo);
-        btnUpdateUserInfo.setBounds(330, 80, 127, 26);
+        btnUpdateUserInfo.setBounds(330, 100, 127, 26);
 
         btnCancel.setText("Cancel");
         getContentPane().add(btnCancel);
-        btnCancel.setBounds(330, 110, 127, 26);
+        btnCancel.setBounds(330, 130, 127, 26);
         getContentPane().add(jSeparator1);
         jSeparator1.setBounds(420, 180, 0, 2);
 
@@ -243,7 +280,7 @@ String sql = "",
         jPanel1.setBounds(10, 200, 90, 90);
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(20, 150, 290, 300);
+        jPanel2.setBounds(20, 170, 290, 300);
 
         jPanel3.setBackground(new java.awt.Color(255, 153, 255));
         jPanel3.setForeground(new java.awt.Color(0, 0, 0));
@@ -284,16 +321,30 @@ String sql = "",
         rdEmp.setBounds(140, 70, 120, 24);
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(20, 20, 290, 120);
+        jPanel3.setBounds(20, 40, 290, 120);
+
+        txtUserID.setText("jLabel12");
+        getContentPane().add(txtUserID);
+        txtUserID.setBounds(20, 10, 48, 16);
+
+        txtSearchID.setText("jTextField1");
         getContentPane().add(txtSearchID);
-        txtSearchID.setBounds(370, 280, 130, 20);
+        txtSearchID.setBounds(390, 280, 90, 20);
+
+        btnSearchID.setText("Search ID");
+        btnSearchID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchIDActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSearchID);
+        btnSearchID.setBounds(390, 320, 88, 26);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        RNGMaker();
         objectParser();
         sql = "INSERT INTO `user_reg`(`Username`, `Password`, `UserType`, `user_id`, `user_FirstName`, `user_MiddleName`, `user_LastName`, `user_Address`, `user_Email`, `user_Gender`, `user_Birthdate`, `user_BirthPlace`, `user_ContactNumber`) "
                 + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -345,8 +396,65 @@ String sql = "",
 
     private void btnUpdateUserInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserInfoActionPerformed
         // TODO add your handling code here:
-        
+        objectParser();
+        sql = "UPDATE user_reg SET (Username = ?, "
+                + "Password = ?, "
+                + "UserType = ?, "
+                + "user_FirstName = ?, "
+                + "user_MiddleName = ?, "
+                + "user_LastName = ?, "
+                + "user_Address = ?,"
+                + "user_Email = ?, "
+                + "user_Gender = ?, "
+                + "user_Birthdate = ?, "
+                + "user_BirthPlace = ?, "
+                + "user_ContactNumber = ?)"
+                + "WHERE user_id = ?";
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
+                PreparedStatement pStmt;
+                pStmt = con.prepareStatement(sql);
+                pStmt.setString (1, username);
+                pStmt.setString (2, password);
+                pStmt.setString (3, userType);
+                pStmt.setString (4, fname);
+                pStmt.setString (5, mname);
+                pStmt.setString (6, lname);
+                pStmt.setString (7, address);
+                pStmt.setString (8, email);
+                pStmt.setString (9, gender);
+                pStmt.setString (10, birthday);
+                pStmt.setString (11, birthplace);
+                pStmt.setString (12, contactnum);
+                pStmt.setInt (13, userId);
+                pStmt.execute();
+                JOptionPane.showMessageDialog(null,"Registration Success!!");
+            }         
+        }catch(ClassNotFoundException | SQLException | HeadlessException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_btnUpdateUserInfoActionPerformed
+
+    private void btnSearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIDActionPerformed
+        // TODO add your handling code here:
+        userId = Integer.parseInt(txtSearchID.getText());
+        sql = "SELECT * FROM user_reg WHERE (user_id = ?)";
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
+                PreparedStatement pStmt;
+                pStmt = con.prepareStatement(sql);
+                pStmt.setInt (1, userId);
+                rs = pStmt.executeQuery(sql);
+                db2objectParser();
+                transferDataToTextField();
+                JOptionPane.showMessageDialog(null,"The userID " + Integer.toString(userId)+ "Exists");
+            }         
+        }catch(ClassNotFoundException | SQLException | HeadlessException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnSearchIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,6 +495,7 @@ String sql = "",
     private javax.swing.JButton btnCancel;
     private javax.swing.JTextField btnContactNumber;
     private javax.swing.JButton btnInsert;
+    private javax.swing.JButton btnSearchID;
     private javax.swing.JButton btnUpdateUserInfo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -416,6 +525,7 @@ String sql = "",
     private javax.swing.JTextField txtMiddleName;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtSearchID;
+    private javax.swing.JLabel txtUserID;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

@@ -79,12 +79,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtUsername">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="root"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPassword">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
+        <Property name="text" type="java.lang.String" value="iamgroot"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
