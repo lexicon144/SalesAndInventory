@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
+import javax.swing.JTextField;
 
 /**
  *
@@ -73,7 +74,7 @@ Boolean isAdmin = true;
         txtBirhtPlace.setText(null);
         txtAddress.setText(null);
         txtEmailAddress.setText(null);
-        btnContactNumber.setText(null);
+        txtContactNumber.setText(null);
         txtUsername.setText(null);
         txtPassword.setText(null);
     }
@@ -97,7 +98,7 @@ Boolean isAdmin = true;
         birthplace = txtBirhtPlace.getText();
         address = txtAddress.getText();
         email = txtEmailAddress.getText();
-        contactnum = btnContactNumber.getText();
+        contactnum = txtContactNumber.getText();
         username = txtUsername.getText();
         password = txtPassword.getText();
     }
@@ -117,7 +118,7 @@ Boolean isAdmin = true;
         txtBirthDate.setText(birthday);
         txtBirhtPlace.setText(birthplace);
         txtEmailAddress.setText(email);
-        btnContactNumber.setText(contactnum);
+        txtContactNumber.setText(contactnum);
         txtUsername.setText(username);
         txtPassword.setText(password);
         txtUserID.setText(Integer.toString(userId));
@@ -125,7 +126,33 @@ Boolean isAdmin = true;
         rdAdmin.setSelected(true);
         }
     }
-    
+    public boolean checkTextFields(){
+        boolean value = false;
+        
+        JTextField fields[]= new JTextField[7];
+        
+        fields[0] = txtUsername;
+        fields[1] = txtPassword;
+        fields[2] = txtFirstName;
+        fields[3] = txtMiddleName;
+        fields[4] = txtLastName;
+        fields[5] = txtAddress;
+        fields[6] = txtBirthDate;
+        fields[7] = txtBirhtPlace;
+        fields[8] = txtContactNumber;
+        fields[9] = txtEmailAddress;
+                
+        for (int i = 0; i < fields.length; i++) {
+            value = fields[i].getText().isEmpty();
+            break;
+        }
+        return value;
+        /*
+        IF VALUE is FALSE, Then FIELDS are not EMPTY
+        IF VALUE is TRUE, Then FIELDS are EMPTY
+        */
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -161,7 +188,7 @@ Boolean isAdmin = true;
         jLabel7 = new javax.swing.JLabel();
         txtBirhtPlace = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        btnContactNumber = new javax.swing.JTextField();
+        txtContactNumber = new javax.swing.JTextField();
         txtEmailAddress = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         rdMale = new javax.swing.JRadioButton();
@@ -179,7 +206,7 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnInsert);
-        btnInsert.setBounds(40, 580, 130, 50);
+        btnInsert.setBounds(10, 560, 130, 50);
 
         btnUpdateUserInfo.setText("Update User Info");
         btnUpdateUserInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +215,7 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnUpdateUserInfo);
-        btnUpdateUserInfo.setBounds(180, 580, 160, 50);
+        btnUpdateUserInfo.setBounds(150, 560, 160, 50);
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -197,7 +224,7 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnCancel);
-        btnCancel.setBounds(260, 640, 210, 50);
+        btnCancel.setBounds(230, 620, 210, 50);
         getContentPane().add(jSeparator1);
         jSeparator1.setBounds(420, 180, 0, 2);
 
@@ -209,12 +236,12 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnSearchID);
-        btnSearchID.setBounds(40, 640, 210, 50);
+        btnSearchID.setBounds(10, 620, 210, 50);
 
         txtUserID.setEditable(false);
         txtUserID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtUserID);
-        txtUserID.setBounds(190, 100, 140, 30);
+        txtUserID.setBounds(160, 100, 140, 30);
 
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
@@ -222,104 +249,104 @@ Boolean isAdmin = true;
         jLabel12.setText("employee registration");
         jLabel12.setToolTipText("");
         getContentPane().add(jLabel12);
-        jLabel12.setBounds(70, 10, 390, 60);
+        jLabel12.setBounds(40, 10, 390, 60);
 
         rdAdmin.setText("Type: Admin");
         getContentPane().add(rdAdmin);
-        rdAdmin.setBounds(190, 210, 120, 24);
+        rdAdmin.setBounds(160, 210, 120, 24);
 
         rdEmp.setText("Type: Employee");
         getContentPane().add(rdEmp);
-        rdEmp.setBounds(190, 230, 120, 24);
+        rdEmp.setBounds(160, 230, 120, 24);
 
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPassword);
-        txtPassword.setBounds(260, 160, 120, 30);
+        txtPassword.setBounds(230, 160, 120, 30);
 
         jLabel11.setText("Password");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(290, 140, 60, 16);
+        jLabel11.setBounds(260, 140, 60, 16);
 
         txtUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtUsername);
-        txtUsername.setBounds(150, 160, 110, 30);
+        txtUsername.setBounds(120, 160, 110, 30);
 
         jLabel10.setText("Username");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(180, 140, 70, 16);
+        jLabel10.setBounds(150, 140, 70, 16);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Last Name");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(90, 340, 70, 16);
+        jLabel3.setBounds(60, 340, 70, 16);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("First Name");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(60, 280, 100, 20);
+        jLabel1.setBounds(30, 280, 100, 20);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Middle Name");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(80, 310, 80, 16);
+        jLabel2.setBounds(50, 310, 80, 16);
 
         txtMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtMiddleName);
-        txtMiddleName.setBounds(170, 300, 200, 30);
+        txtMiddleName.setBounds(140, 300, 200, 30);
 
         txtFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtFirstName);
-        txtFirstName.setBounds(170, 270, 200, 30);
+        txtFirstName.setBounds(140, 270, 200, 30);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Address");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(110, 370, 50, 16);
+        jLabel4.setBounds(80, 370, 50, 16);
 
         txtAddress.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtAddress);
-        txtAddress.setBounds(170, 360, 200, 30);
+        txtAddress.setBounds(140, 360, 200, 30);
 
         txtBirthDate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtBirthDate);
-        txtBirthDate.setBounds(170, 390, 200, 30);
+        txtBirthDate.setBounds(140, 390, 200, 30);
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Birthdate");
         jLabel5.setToolTipText("");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(100, 400, 60, 16);
+        jLabel5.setBounds(70, 400, 60, 16);
 
         txtLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtLastName);
-        txtLastName.setBounds(170, 330, 200, 30);
+        txtLastName.setBounds(140, 330, 200, 30);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Birth Place");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(90, 460, 70, 16);
+        jLabel7.setBounds(60, 460, 70, 16);
 
         txtBirhtPlace.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtBirhtPlace);
-        txtBirhtPlace.setBounds(170, 450, 200, 30);
+        txtBirhtPlace.setBounds(140, 450, 200, 30);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Contact Number");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(60, 430, 100, 16);
+        jLabel6.setBounds(30, 430, 100, 16);
 
-        btnContactNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(btnContactNumber);
-        btnContactNumber.setBounds(170, 420, 200, 30);
+        txtContactNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(txtContactNumber);
+        txtContactNumber.setBounds(140, 420, 200, 30);
 
         txtEmailAddress.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtEmailAddress);
-        txtEmailAddress.setBounds(170, 480, 200, 30);
+        txtEmailAddress.setBounds(140, 480, 200, 30);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Email Address");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(70, 490, 90, 16);
+        jLabel8.setBounds(40, 490, 90, 16);
 
         rdMale.setText("Male");
         getContentPane().add(rdMale);
@@ -327,7 +354,7 @@ Boolean isAdmin = true;
 
         jLabel9.setText("Gender");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(120, 520, 41, 16);
+        jLabel9.setBounds(90, 520, 41, 16);
 
         rdFemale.setText("Female");
         getContentPane().add(rdFemale);
@@ -340,14 +367,15 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnClearAll);
-        btnClearAll.setBounds(350, 580, 120, 50);
+        btnClearAll.setBounds(320, 560, 120, 50);
 
-        setSize(new java.awt.Dimension(534, 764));
+        setSize(new java.awt.Dimension(466, 719));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
+        if (checkTextFields() != false){
         objectParser();
         sai.sql = "INSERT INTO `user_reg`(`Username`, `Password`, `isAdmin`, `user_id`, `user_FirstName`, `user_MiddleName`, `user_LastName`, `user_Address`, `user_Email`, `user_Gender`, `user_Birthdate`, `user_BirthPlace`, `user_ContactNumber`) "
                 + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -380,6 +408,11 @@ Boolean isAdmin = true;
         clearTextBoxes();
         
         txtUserID.setText(Integer.toString(userId));
+        }//END of IF segment
+        else{
+            JOptionPane.showMessageDialog(null, "Missing data within fields");
+        }
+        
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateUserInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserInfoActionPerformed
@@ -392,7 +425,7 @@ Boolean isAdmin = true;
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
                 
                 objectParser();
-                
+                //Modified this part just incase it could work with the SAI classes
                 pStmt = con.prepareStatement(sai.sql);
                 pStmt.setString (1, username);
                 pStmt.setString (2, password);
@@ -512,7 +545,6 @@ Boolean isAdmin = true;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClearAll;
-    private javax.swing.JTextField btnContactNumber;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnSearchID;
     private javax.swing.JButton btnUpdateUserInfo;
@@ -536,6 +568,7 @@ Boolean isAdmin = true;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtBirhtPlace;
     private javax.swing.JTextField txtBirthDate;
+    private javax.swing.JTextField txtContactNumber;
     private javax.swing.JTextField txtEmailAddress;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
