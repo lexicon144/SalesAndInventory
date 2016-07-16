@@ -16,13 +16,18 @@ import javax.swing.JOptionPane;
  *
  * @author John
  */
-public class frm_login extends javax.swing.JFrame {
-    String sql = "",user_txt = "", pass_txt = "", user_db = "", pass_db = "";
+public class frm_login extends javax.swing.JFrame{
+    SalesAndInventory sai = new SalesAndInventory();
+    String sql = "",user_txt = "", pass_txt = "", user_db = "", pass_db = "", userType="";
+    Boolean isAdministrator = null;
+    
     /**
      * Creates new form frm_login
      */
     public frm_login() {
         initComponents();
+        setResizable(false);
+        System.out.println("@ frm_lgoin.java");
     }
   
     /**
@@ -37,10 +42,11 @@ public class frm_login extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
         txtUsername = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -48,6 +54,8 @@ public class frm_login extends javax.swing.JFrame {
                 btnLoginActionPerformed(evt);
             }
         });
+        getContentPane().add(btnLogin);
+        btnLogin.setBounds(10, 190, 80, 40);
 
         btnExit.setText("Exit");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -55,54 +63,34 @@ public class frm_login extends javax.swing.JFrame {
                 btnExitActionPerformed(evt);
             }
         });
+        getContentPane().add(btnExit);
+        btnExit.setBounds(180, 190, 80, 40);
 
-        txtUsername.setText("root");
+        txtUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtUsername.setToolTipText("Input your username here.... ");
+        getContentPane().add(txtUsername);
+        txtUsername.setBounds(12, 91, 250, 40);
 
-        txtPassword.setText("iamgroot");
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("authentication");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(10, 0, 250, 52);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("Authentication");
+        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPassword.setToolTipText("Input your password here...");
+        getContentPane().add(txtPassword);
+        txtPassword.setBounds(10, 140, 250, 40);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnLogin)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnExit))
-                        .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin)
-                    .addComponent(btnExit))
-                .addContainerGap())
-        );
-
-        pack();
+        setSize(new java.awt.Dimension(292, 283));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         user_txt = txtUsername.getText();
         pass_txt = txtPassword.getText();
+        
         sql = "SELECT * FROM user_reg WHERE (Username = '" + user_txt + "' AND Password = '" + pass_txt + "')";
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -113,9 +101,29 @@ public class frm_login extends javax.swing.JFrame {
                 while(rs.next()){
                     user_db = rs.getString("Username");
                     pass_db = rs.getString("Password");
+                    isAdministrator = rs.getBoolean("isAdmin");
                 }
+                System.out.println("ADMIN STATE @ AFTER While LOOP/REsultSet frm_login.java = " + isAdministrator); //delete this code when done
+                
+                
                 if ((user_txt.equals(user_db)) && (pass_txt.equals(pass_db))){
-                    JOptionPane.showMessageDialog(this, "Connected to DB");
+                    System.out.println("ADMIN STATE @ DECISION IS USERADMIN ? = " + SalesAndInventory.isAdminPresent ); // should be null
+                    
+                    if (isAdministrator == true){//THis happens if ADMIN is using the system
+                        userType = "ADM";
+                        
+                    }
+                    else{//THis happens if EMPLOYEE is using the sytem
+                        userType = "EMP";
+                    }
+                    
+                    SalesAndInventory.isAdminPresent = isAdministrator;//THIS SHOULD NOT BE NULL
+                    
+                    System.out.println("ADMIN STATE @ AFTER IF/ELSE setting USERTYPE frm_login.java = " + isAdministrator); //delete this code when done
+                    
+                    System.out.println("frm_login.java = " + SalesAndInventory.isAdminPresent + " " + userType );
+                    JOptionPane.showMessageDialog(this, "Connected to DB as " + userType) ;
+                    
                     frm_mainmenu openMainMenu = new frm_mainmenu();
                     openMainMenu.setVisible(true);
                     dispose();
@@ -132,7 +140,7 @@ public class frm_login extends javax.swing.JFrame {
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // TODO add your handling code here:
-        System.exit(1);
+        System.exit(0);
     }//GEN-LAST:event_btnExitActionPerformed
 
     /**
@@ -174,7 +182,7 @@ public class frm_login extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

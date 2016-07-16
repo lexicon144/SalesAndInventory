@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JTextField;
 
+
 /**
  *
  * @author John
@@ -24,7 +25,8 @@ public final class frm_EmpForm extends javax.swing.JFrame {
 SalesAndInventory sai = new SalesAndInventory();
 
 ResultSet rs = null;
-PreparedStatement pStmt = null;
+String sql;
+Boolean userIsAdmin = false;
 
 int userId = 0,tempUserID = 0;
 String  fname = "",
@@ -44,7 +46,7 @@ Boolean isAdmin = true;
      * Creates new form frm_EmpForm
      */
 
-
+    ///////////////////////////////////////////////////////////////////////////////////
     public frm_EmpForm() {
         initComponents();
         //BUTTON GROUP        
@@ -56,15 +58,17 @@ Boolean isAdmin = true;
         userGender.add(rdFemale);
         //BUTTON GROUP ^^
         setResizable(false);
-        
         RNGmaker();
+        btnUpdateUserInfo.setVisible(SalesAndInventory.isAdminPresent);
+        System.out.println("@ frm_EmpForm.java");
     }
+    ///////////////////////////////////////////////////////////////////////////////////
     
     public void RNGmaker(){
         Random randomGenerator = new Random();
         tempUserID = randomGenerator.nextInt(999999999);
+        userId = tempUserID;
         txtUserID.setText(Integer.toString(tempUserID));
-        userId = 0;
     }
     public void clearTextBoxes(){
         txtFirstName.setText(null);
@@ -78,6 +82,7 @@ Boolean isAdmin = true;
         txtUsername.setText(null);
         txtPassword.setText(null);
     }
+    //The object parser will get all text FROM 
     public void objectParser(){
         if (rdAdmin.isSelected()){
             isAdmin = true;            
@@ -126,10 +131,35 @@ Boolean isAdmin = true;
         rdAdmin.setSelected(true);
         }
     }
-    public boolean checkTextFields(){
-        boolean value = false;
+    //these following functions will detect if there are STRANGE inputs in the fields
+    //TYPE EMAIL
+    public boolean typeEmail(){
+        System.out.println("Called typeEmail()");
         
-        JTextField fields[]= new JTextField[7];
+        return (txtEmailAddress.getText()).matches(SalesAndInventory.EMAIL_REGEX);
+    }
+    //TYPE NUMERIC
+    public boolean typeNumeric(){
+        System.out.println("Called typeNumeric()");
+        try
+        {
+            Integer.parseInt(txtContactNumber.getText());
+            System.out.println("typeNumeric() = true");
+            return true;
+        }
+        catch (NumberFormatException ex)
+        {
+            System.out.println("typeNumeric() = false");
+            return false;
+        }
+    }
+    
+        
+    //TYPE NULL
+    public boolean checkTextFields(){
+        System.out.println("Called checkTextFields()");
+        boolean value = false;
+        JTextField fields[]= new JTextField[10];
         
         fields[0] = txtUsername;
         fields[1] = txtPassword;
@@ -142,16 +172,18 @@ Boolean isAdmin = true;
         fields[8] = txtContactNumber;
         fields[9] = txtEmailAddress;
                 
-        for (int i = 0; i < fields.length; i++) {
-            value = fields[i].getText().isEmpty();
-            break;
+        for(int i = 0; i < fields.length ;++i) {
+            if(fields[i].getText().isEmpty()){
+                System.out.println("FIELD["+i+"] NULL!!!");
+                return true;
+            }
         }
+        System.out.println("checkTextFields() = " + value);
         return value;
         /*
         IF VALUE is FALSE, Then FIELDS are not EMPTY
         IF VALUE is TRUE, Then FIELDS are EMPTY
         */
-        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -165,7 +197,6 @@ Boolean isAdmin = true;
         btnInsert = new javax.swing.JButton();
         btnUpdateUserInfo = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
         btnSearchID = new javax.swing.JButton();
         txtUserID = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -206,16 +237,17 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnInsert);
-        btnInsert.setBounds(10, 560, 130, 50);
+        btnInsert.setBounds(10, 560, 150, 50);
 
-        btnUpdateUserInfo.setText("Update User Info");
+        btnUpdateUserInfo.setText("Update User");
+        btnUpdateUserInfo.setToolTipText("This button updates the SEARCHED user");
         btnUpdateUserInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateUserInfoActionPerformed(evt);
             }
         });
         getContentPane().add(btnUpdateUserInfo);
-        btnUpdateUserInfo.setBounds(150, 560, 160, 50);
+        btnUpdateUserInfo.setBounds(170, 560, 120, 50);
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -225,8 +257,6 @@ Boolean isAdmin = true;
         });
         getContentPane().add(btnCancel);
         btnCancel.setBounds(230, 620, 210, 50);
-        getContentPane().add(jSeparator1);
-        jSeparator1.setBounds(420, 180, 0, 2);
 
         btnSearchID.setText("Search User ID");
         btnSearchID.setToolTipText("");
@@ -244,7 +274,6 @@ Boolean isAdmin = true;
         txtUserID.setBounds(160, 100, 140, 30);
 
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("employee registration");
         jLabel12.setToolTipText("");
@@ -253,11 +282,11 @@ Boolean isAdmin = true;
 
         rdAdmin.setText("Type: Admin");
         getContentPane().add(rdAdmin);
-        rdAdmin.setBounds(160, 210, 120, 24);
+        rdAdmin.setBounds(160, 210, 120, 23);
 
         rdEmp.setText("Type: Employee");
         getContentPane().add(rdEmp);
-        rdEmp.setBounds(160, 230, 120, 24);
+        rdEmp.setBounds(160, 230, 120, 23);
 
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPassword);
@@ -265,7 +294,7 @@ Boolean isAdmin = true;
 
         jLabel11.setText("Password");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(260, 140, 60, 16);
+        jLabel11.setBounds(260, 140, 60, 14);
 
         txtUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtUsername);
@@ -273,12 +302,12 @@ Boolean isAdmin = true;
 
         jLabel10.setText("Username");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(150, 140, 70, 16);
+        jLabel10.setBounds(150, 140, 70, 14);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Last Name");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(60, 340, 70, 16);
+        jLabel3.setBounds(60, 340, 70, 14);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("First Name");
@@ -288,7 +317,7 @@ Boolean isAdmin = true;
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Middle Name");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(50, 310, 80, 16);
+        jLabel2.setBounds(50, 310, 80, 14);
 
         txtMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtMiddleName);
@@ -301,7 +330,7 @@ Boolean isAdmin = true;
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Address");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(80, 370, 50, 16);
+        jLabel4.setBounds(80, 370, 50, 14);
 
         txtAddress.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtAddress);
@@ -315,7 +344,7 @@ Boolean isAdmin = true;
         jLabel5.setText("Birthdate");
         jLabel5.setToolTipText("");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(70, 400, 60, 16);
+        jLabel5.setBounds(70, 400, 60, 14);
 
         txtLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtLastName);
@@ -324,7 +353,7 @@ Boolean isAdmin = true;
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Birth Place");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(60, 460, 70, 16);
+        jLabel7.setBounds(60, 460, 70, 14);
 
         txtBirhtPlace.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtBirhtPlace);
@@ -333,7 +362,7 @@ Boolean isAdmin = true;
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Contact Number");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(30, 430, 100, 16);
+        jLabel6.setBounds(30, 430, 100, 14);
 
         txtContactNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtContactNumber);
@@ -346,19 +375,19 @@ Boolean isAdmin = true;
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Email Address");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(40, 490, 90, 16);
+        jLabel8.setBounds(40, 490, 90, 14);
 
         rdMale.setText("Male");
         getContentPane().add(rdMale);
-        rdMale.setBounds(170, 520, 51, 24);
+        rdMale.setBounds(170, 520, 60, 23);
 
         jLabel9.setText("Gender");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(90, 520, 41, 16);
+        jLabel9.setBounds(90, 520, 80, 14);
 
         rdFemale.setText("Female");
         getContentPane().add(rdFemale);
-        rdFemale.setBounds(230, 520, 67, 24);
+        rdFemale.setBounds(230, 520, 100, 23);
 
         btnClearAll.setText("Clear All");
         btnClearAll.addActionListener(new java.awt.event.ActionListener() {
@@ -367,7 +396,7 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnClearAll);
-        btnClearAll.setBounds(320, 560, 120, 50);
+        btnClearAll.setBounds(300, 560, 140, 50);
 
         setSize(new java.awt.Dimension(466, 719));
         setLocationRelativeTo(null);
@@ -375,16 +404,18 @@ Boolean isAdmin = true;
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        if (checkTextFields() != false){
-        objectParser();
-        sai.sql = "INSERT INTO `user_reg`(`Username`, `Password`, `isAdmin`, `user_id`, `user_FirstName`, `user_MiddleName`, `user_LastName`, `user_Address`, `user_Email`, `user_Gender`, `user_Birthdate`, `user_BirthPlace`, `user_ContactNumber`) "
-                + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        typeNumeric();
+        if (checkTextFields() == false && typeNumeric() == true && typeEmail()== true ){
+        // 
+            objectParser();
+        sql = "INSERT INTO `user_reg`(`Username`, `Password`, `isAdmin`, `user_id`, `user_FirstName`, `user_MiddleName`, `user_LastName`, `user_Address`, `user_Email`, `user_Gender`, `user_Birthdate`, `user_BirthPlace`, `user_ContactNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
             Class.forName("com.mysql.jdbc.Driver");
 
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot");
             
-                pStmt = con.prepareStatement(sai.sql);
+                 PreparedStatement pStmt = con.prepareStatement(sql);
+                
                 pStmt.setString (1, username);
                 pStmt.setString (2, password);
                 pStmt.setBoolean (3, isAdmin);
@@ -398,19 +429,21 @@ Boolean isAdmin = true;
                 pStmt.setString (11, birthday);
                 pStmt.setString (12, birthplace);
                 pStmt.setString (13, contactnum);
-                pStmt.executeUpdate();
+                pStmt.execute();
                 JOptionPane.showMessageDialog(null,"Registration Success!!");
                  
         }catch(ClassNotFoundException | SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-        
+        //this clears the textboxes..... obviously
         clearTextBoxes();
         
+        RNGmaker();
         txtUserID.setText(Integer.toString(userId));
+        
         }//END of IF segment
         else{
-            JOptionPane.showMessageDialog(null, "Missing data within fields");
+           JOptionPane.showMessageDialog(null, "Missing data within fields");
         }
         
     }//GEN-LAST:event_btnInsertActionPerformed
@@ -419,14 +452,15 @@ Boolean isAdmin = true;
         // TODO add your handling code here:
         
         objectParser();
-        sai.sql = "UPDATE user_reg SET Username = ?,Password = ?,isAdmin = ?,user_FirstName = ?,user_MiddleName = ?, user_LastName = ?, user_Address = ?,user_Email = ?,user_Gender = ?,user_Birthdate = ?,user_BirthPlace = ?,user_ContactNumber = ? WHERE user_id = ?";
+        if (checkTextFields() != false){
+        sql = "UPDATE user_reg SET Username = ?,Password = ?,isAdmin = ?,user_FirstName = ?,user_MiddleName = ?, user_LastName = ?, user_Address = ?,user_Email = ?,user_Gender = ?,user_Birthdate = ?,user_BirthPlace = ?,user_ContactNumber = ? WHERE user_id = ?";
         try{
             Class.forName("com.mysql.jdbc.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
-                
+                PreparedStatement pStmt = con.prepareStatement(sql);
                 objectParser();
                 //Modified this part just incase it could work with the SAI classes
-                pStmt = con.prepareStatement(sai.sql);
+                pStmt = con.prepareStatement(sql);
                 pStmt.setString (1, username);
                 pStmt.setString (2, password);
                 pStmt.setBoolean (3, isAdmin);
@@ -448,10 +482,15 @@ Boolean isAdmin = true;
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         clearTextBoxes();
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Please fill up all the fields... \ndo it for the puppy --> (^・x・^)");
+        }
     }//GEN-LAST:event_btnUpdateUserInfoActionPerformed
 
     private void btnSearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIDActionPerformed
         // TODO add your handling code here:
+        SalesAndInventory sai = new SalesAndInventory();
         //Need to do more arguments here
         searchThisID =  JOptionPane.showInputDialog("Type in the ID you are looking for... ");
         if (searchThisID != null){ //START OF NO NULL INPUT!
@@ -492,7 +531,7 @@ Boolean isAdmin = true;
         }
         }//END OF NO NULL
         else{
-            JOptionPane.showMessageDialog(null,"Srsly nigga?");
+            JOptionPane.showMessageDialog(null,"Doesnt work... You probably missed a field or two...");
         }
         //up to here
        
@@ -560,7 +599,6 @@ Boolean isAdmin = true;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JRadioButton rdAdmin;
     private javax.swing.JRadioButton rdEmp;
     private javax.swing.JRadioButton rdFemale;
