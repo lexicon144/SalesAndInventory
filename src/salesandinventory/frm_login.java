@@ -103,6 +103,7 @@ public class frm_login extends javax.swing.JFrame{
                     pass_db = rs.getString("Password");
                     isAdministrator = rs.getBoolean("isAdmin");
                 }
+                //These statements just print out the status on the console.. of java.. (͡° ͜ʖ ͡°)
                 System.out.println("ADMIN STATE @ AFTER While LOOP/REsultSet frm_login.java = " + isAdministrator); //delete this code when done
                 
                 

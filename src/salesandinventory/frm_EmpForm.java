@@ -84,28 +84,25 @@ Boolean isAdmin = true;
     }
     //The object parser will get all text FROM 
     public void objectParser(){
-        if (rdAdmin.isSelected()){
-            isAdmin = true;            
-        }
-        else{
-            isAdmin = false;
-        }
+        //dont forget to check this part
+        
+        this.isAdmin = rdAdmin.isSelected();
         if (rdMale.isSelected()){
-            gender = "M";
+            this.gender = "M";
         }
         else{
-            gender = "F";
+            this.gender = "F";
         }
-        fname = txtFirstName.getText();
-        mname = txtMiddleName.getText();
-        lname = txtLastName.getText();
-        birthday = txtBirthDate.getText();
-        birthplace = txtBirhtPlace.getText();
-        address = txtAddress.getText();
-        email = txtEmailAddress.getText();
-        contactnum = txtContactNumber.getText();
-        username = txtUsername.getText();
-        password = txtPassword.getText();
+        this.fname = txtFirstName.getText();
+        this.mname = txtMiddleName.getText();
+        this.lname = txtLastName.getText();
+        this.birthday = txtBirthDate.getText();
+        this.birthplace = txtBirhtPlace.getText();
+        this.address = txtAddress.getText();
+        this.email = txtEmailAddress.getText();
+        this.contactnum = txtContactNumber.getText();
+        this.username = txtUsername.getText();
+        this.password = txtPassword.getText();
     }
     public void transferDataToTextField(){
     switch (gender) {
@@ -175,15 +172,15 @@ Boolean isAdmin = true;
         for(int i = 0; i < fields.length ;++i) {
             if(fields[i].getText().isEmpty()){
                 System.out.println("FIELD["+i+"] NULL!!!");
-                return true;
+                value = true;
             }
         }
         System.out.println("checkTextFields() = " + value);
-        return value;
         /*
         IF VALUE is FALSE, Then FIELDS are not EMPTY
         IF VALUE is TRUE, Then FIELDS are EMPTY
         */
+        return value;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -406,6 +403,10 @@ Boolean isAdmin = true;
         // TODO add your handling code here:
         typeNumeric();
         if (checkTextFields() == false && typeNumeric() == true && typeEmail()== true ){
+            /*
+            THIS NEEDS TO BE WORKED ON!! FOR SOME REASON THIS DOENST WORK LIKE HECK!!
+            
+            */
         // 
             objectParser();
         sql = "INSERT INTO `user_reg`(`Username`, `Password`, `isAdmin`, `user_id`, `user_FirstName`, `user_MiddleName`, `user_LastName`, `user_Address`, `user_Email`, `user_Gender`, `user_Birthdate`, `user_BirthPlace`, `user_ContactNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -413,8 +414,7 @@ Boolean isAdmin = true;
             Class.forName("com.mysql.jdbc.Driver");
 
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot");
-            
-                 PreparedStatement pStmt = con.prepareStatement(sql);
+                PreparedStatement pStmt = con.prepareStatement(sql);
                 
                 pStmt.setString (1, username);
                 pStmt.setString (2, password);
