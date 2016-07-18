@@ -94,7 +94,7 @@ public class frm_login extends javax.swing.JFrame{
         sql = "SELECT * FROM user_reg WHERE (Username = '" + user_txt + "' AND Password = '" + pass_txt + "')";
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")) {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 

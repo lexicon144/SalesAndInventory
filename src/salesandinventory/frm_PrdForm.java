@@ -36,8 +36,8 @@ ResultSet rs;
      searchThisID = "";
     
     Double prdTotalPrice=0.0, prdDiscountedPrice=0.0,prdOriginalPrice=0.0,tempStorage = 0.0,discount = 0.0;
-    
-    //////////////////////////////////////////////////
+//this will be the end of the variable declarations.... 
+    /////////////////////////////////////////////////
     /**
      * Creates new form frm_PrdForm
      */
@@ -49,13 +49,18 @@ ResultSet rs;
         btn_UpdatePrd.setVisible(SalesAndInventory.isAdminPresent);
         System.out.println("@ frm_PrdForm.java");
     }
-    //////////////////////////////////////////////
+    ///////////////////////
+    //this VOID function
+    //just generates a 
+    //RANDOM NUMBER    
+    //for the PRODUCT ID
+    ///////////////////////
     private void rng(){
         Random randomGenerator = new Random();
         tempPrdID = randomGenerator.nextInt(999999999);
         txtBarcode.setText(Integer.toString(tempPrdID));
     }
-    
+    //this VOID function just clears the TEXTBOXES
     private void clearTextBoxes(){
         txtPrdDesc.setText(null);
         txtPrdName.setText(null);
@@ -67,23 +72,23 @@ ResultSet rs;
         txtPrdDIscountedPrice.setText(null);
     }
     
+    //this FUNCTION will compute the price for the PRODUCT
+    //especially when they need to compute for the...
+    //TOTAL PRICE, ORIGINAL PRICE, DISCOUNT, and DISCOUNTED PRICE
     private void returnValue4TotalPrice(){
         DecimalFormat cmbFormat = new DecimalFormat("#.00");
-        
         prdOriginalPrice = Double.parseDouble(txtPrdOriginalPrice.getText());
         prdQuantity = Integer.parseInt(txtPrdQuantity.getText());
-        
         prdTotalPrice = (
                 prdOriginalPrice * (double) prdQuantity
         );
-        
         prdDiscountedPrice = prdOriginalPrice - (prdOriginalPrice * discount);
-        
         txtPrdTotalPrice.setText(cmbFormat.format(prdTotalPrice));
-        
         txtPrdDIscountedPrice.setText(cmbFormat.format(prdDiscountedPrice));
     }
     
+    //this VOID funcition ill DUMP All TEXTFIELD DATA
+    //into the set of OBJECTS
     private void objectParser(){
         prdID = Integer.parseInt(txtBarcode.getText());
         prdQuantity = Integer.parseInt(txtPrdQuantity.getText());
@@ -96,11 +101,11 @@ ResultSet rs;
         prdOriginalPrice = Double.parseDouble(txtPrdOriginalPrice.getText());
     }
     
-    private void checkTextFields(){
-        
-        
+    //This BOOLEAN function WILL GET ALL OF THE TEXTFIELDS
+    //then put them into an OBJECT array (which you could see here)
+    //...is an ARRAY of TEXTFIELDS;
+    private boolean checkTextFields(){
         JTextField fields[]= new JTextField[7];
-        
         fields[0] = txtBarcode;
         fields[1] = txtPrdDesc;
         fields[2] = txtPrdName;
@@ -109,11 +114,18 @@ ResultSet rs;
         fields[5] = txtPrdTotalPrice;
         fields[6] = txtPrdDIscountedPrice;
         
-        for (int i = 0; i < fields.length; i++) {
-            value = !fields[i].getText().isEmpty();
+        for(int i = 0; i < fields.length ;++i) {
+            if(fields[i].getText().isEmpty()){
+                System.out.println("FIELD["+i+"] NULL!!!");
+                value = true;
+            }
         }
+        System.out.println("checkTextFields() = " + value);
+        //IF VALUE is FALSE, Then FIELDS are not EMPTY
+        //IF VALUE is TRUE, Then FIELDS are EMPTY
+        return value;
     }
-    
+    //This Function DUMPS data FROM the objects INTO the TEXTFIELDS
     private void transferData2TextField(){
         txtBarcode.setText(Integer.toString(prdID));
         txtPrdQuantity.setText(Integer.toString(prdQuantity));
@@ -205,6 +217,11 @@ ResultSet rs;
 
         txtBarcode.setEditable(false);
         txtBarcode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtBarcode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBarcodeMouseClicked(evt);
+            }
+        });
         getContentPane().add(txtBarcode);
         txtBarcode.setBounds(200, 60, 170, 30);
 
@@ -336,16 +353,14 @@ ResultSet rs;
 
     private void btnRegisterPRDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterPRDActionPerformed
         // TODO add your handling code here:
-        checkTextFields();
         
-        if (value != false){ //IF THE INPUT ISNT NULL
+        if (checkTextFields() == false){ //IF THE INPUT ISNT NULL
             
-        sai.sql = "INSERT INTO `prod_reg`(`prdId`, `prdName`, `prdDesc`, `prdManufacturer`, `prdSupplier`, `prdQuantity`, `prdPrice`, `prdTotalPrice`, `prdDiscount`, `prdDiscountedPrice`) "
-                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        sai.sql = "INSERT INTO `prod_reg`(`prdId`, `prdName`, `prdDesc`, `prdManufacturer`, `prdSupplier`, `prdQuantity`, `prdPrice`, `prdTotalPrice`, `prdDiscount`, `prdDiscountedPrice`) VALUES (?,?,?,?,?,?,?,?,?,?)";
         try{
             Class.forName("com.mysql.jdbc.Driver");
 
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","");
             //SET DATA FOR THE OBJECTS
             objectParser();
             //END OF SETTING THE DATA
@@ -377,7 +392,7 @@ ResultSet rs;
         rng();
         }
         else{
-        JOptionPane.showMessageDialog(null, "Missing data within fields");
+        JOptionPane.showMessageDialog(null, "One or more of the fields don't have a correct input...\nPlease re-check ALL the fields and ensure that they have the correct input...");
         }
     }//GEN-LAST:event_btnRegisterPRDActionPerformed
 
@@ -421,13 +436,12 @@ ResultSet rs;
         /*
         THIS IS FOR UPDATING A NEW RECORD....
         */
-        checkTextFields();
-        if (value != false){
+        if (checkTextFields() == false){
             objectParser();
             sai.sql = "UPDATE prod_reg SET prdName = ?, prdDesc = ?, prdManufacturer = ?, prdSupplier = ?, prdQuantity = ?, prdPrice = ?, prdTotalPrice = ?, prdDiscount = ?, prdDiscountedPrice = ? WHERE prdId = ?";
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")) {
                 
                 objectParser();
                 
@@ -451,6 +465,8 @@ ResultSet rs;
         }catch(ClassNotFoundException | SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+        }else{
+            JOptionPane.showMessageDialog(null,"Please fill up all the fields correctly... \n\ndo it for the puppy --> (^・x・^)");
         }
         
         
@@ -465,7 +481,7 @@ ResultSet rs;
                 
             sai.sql = "SELECT * FROM prod_reg WHERE prdId = '"+searchThisID+"'";
             Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {//2nd TRY
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")) {//2nd TRY
                 Statement stmt = con.createStatement();
                 rs = stmt.executeQuery(sai.sql);
                 
@@ -500,6 +516,11 @@ ResultSet rs;
             
         }
     }//GEN-LAST:event_btnSearchIDActionPerformed
+
+    private void txtBarcodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBarcodeMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtBarcodeMouseClicked
 
     /**
      * @param args the command line arguments

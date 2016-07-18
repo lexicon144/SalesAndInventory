@@ -63,13 +63,14 @@ Boolean isAdmin = true;
         System.out.println("@ frm_EmpForm.java");
     }
     ///////////////////////////////////////////////////////////////////////////////////
-    
+    //this function GENERATES a RANDOM NUMBER
     public void RNGmaker(){
         Random randomGenerator = new Random();
         tempUserID = randomGenerator.nextInt(999999999);
         userId = tempUserID;
         txtUserID.setText(Integer.toString(tempUserID));
     }
+    //THIS FUNCTION just clears the textbox.. this is a void function
     public void clearTextBoxes(){
         txtFirstName.setText(null);
         txtMiddleName.setText(null);
@@ -104,6 +105,8 @@ Boolean isAdmin = true;
         this.username = txtUsername.getText();
         this.password = txtPassword.getText();
     }
+    //this function DUMPS all the data from the objects into the TEXTFIELDS
+
     public void transferDataToTextField(){
     switch (gender) {
         case "M":
@@ -403,17 +406,13 @@ Boolean isAdmin = true;
         // TODO add your handling code here:
         typeNumeric();
         if (checkTextFields() == false && typeNumeric() == true && typeEmail()== true ){
-            /*
-            THIS NEEDS TO BE WORKED ON!! FOR SOME REASON THIS DOENST WORK LIKE HECK!!
-            
-            */
-        // 
+           
             objectParser();
         sql = "INSERT INTO `user_reg`(`Username`, `Password`, `isAdmin`, `user_id`, `user_FirstName`, `user_MiddleName`, `user_LastName`, `user_Address`, `user_Email`, `user_Gender`, `user_Birthdate`, `user_BirthPlace`, `user_ContactNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
             Class.forName("com.mysql.jdbc.Driver");
 
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","");
                 PreparedStatement pStmt = con.prepareStatement(sql);
                 
                 pStmt.setString (1, username);
@@ -437,13 +436,11 @@ Boolean isAdmin = true;
         }
         //this clears the textboxes..... obviously
         clearTextBoxes();
-        
         RNGmaker();
         txtUserID.setText(Integer.toString(userId));
-        
         }//END of IF segment
         else{
-           JOptionPane.showMessageDialog(null, "Missing data within fields");
+           JOptionPane.showMessageDialog(null, "One or more of the fields don't have a correct input...\nPlease re-check ALL the fields and ensure that they have the correct input...");
         }
         
     }//GEN-LAST:event_btnInsertActionPerformed
@@ -452,14 +449,17 @@ Boolean isAdmin = true;
         // TODO add your handling code here:
         
         objectParser();
-        if (checkTextFields() != false){
+        if (checkTextFields() == false && typeNumeric() == true && typeEmail()== true){
         sql = "UPDATE user_reg SET Username = ?,Password = ?,isAdmin = ?,user_FirstName = ?,user_MiddleName = ?, user_LastName = ?, user_Address = ?,user_Email = ?,user_Gender = ?,user_Birthdate = ?,user_BirthPlace = ?,user_ContactNumber = ? WHERE user_id = ?";
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
-                PreparedStatement pStmt = con.prepareStatement(sql);
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")){
                 objectParser();
                 //Modified this part just incase it could work with the SAI classes
+                /*
+                THESE Statements will function just as parameters do in visualBaSIC
+                */
+                PreparedStatement pStmt;
                 pStmt = con.prepareStatement(sql);
                 pStmt.setString (1, username);
                 pStmt.setString (2, password);
@@ -484,7 +484,7 @@ Boolean isAdmin = true;
         clearTextBoxes();
         }
         else{
-            JOptionPane.showMessageDialog(null,"Please fill up all the fields... \ndo it for the puppy --> (^・x・^)");
+            JOptionPane.showMessageDialog(null,"Please fill up all the fields correctly... \n\ndo it for the puppy --> (^・x・^)");
         }
     }//GEN-LAST:event_btnUpdateUserInfoActionPerformed
 
@@ -498,7 +498,7 @@ Boolean isAdmin = true;
                 tempUserID = Integer.parseInt(searchThisID);
             sai.sql = "SELECT * FROM user_reg WHERE user_id = '" + tempUserID + "'";
             Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","iamgroot")) {
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")) {
                 Statement stmt = con.createStatement();
                 rs = stmt.executeQuery(sai.sql);
                 
