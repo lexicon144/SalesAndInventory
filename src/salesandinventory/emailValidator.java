@@ -15,5 +15,4 @@ public class emailValidator {
 	public boolean dva(String takeThisIn){
             return takeThisIn.matches(EMAIL_REGEX);
         }
-
 }

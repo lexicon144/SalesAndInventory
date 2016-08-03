@@ -36,6 +36,8 @@ public class frm_mainmenu extends javax.swing.JFrame {
         btnLogut = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnViewRecords = new javax.swing.JButton();
+        btnNewTransaction = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -72,7 +74,7 @@ public class frm_mainmenu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLogut);
-        btnLogut.setBounds(30, 290, 340, 50);
+        btnLogut.setBounds(250, 490, 120, 50);
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -83,9 +85,29 @@ public class frm_mainmenu extends javax.swing.JFrame {
         btnViewRecords.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnViewRecords.setText("View Records (ALPHA)");
         getContentPane().add(btnViewRecords);
-        btnViewRecords.setBounds(30, 240, 340, 50);
+        btnViewRecords.setBounds(30, 350, 340, 50);
 
-        setSize(new java.awt.Dimension(421, 404));
+        btnNewTransaction.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnNewTransaction.setText("New Transaction....");
+        btnNewTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewTransactionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnNewTransaction);
+        btnNewTransaction.setBounds(30, 270, 340, 50);
+
+        jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jButton1.setText("Add Supplier Or Manufacturer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(30, 190, 340, 50);
+
+        setSize(new java.awt.Dimension(419, 602));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -110,7 +132,21 @@ public class frm_mainmenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnPrdRegistrationActionPerformed
 
-    /**
+    private void btnNewTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewTransactionActionPerformed
+        // TODO add your handling code here:
+        frm_Transaction openMe = new frm_Transaction();
+        openMe.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnNewTransactionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        frm_AddSupOrMan openMe = new frm_AddSupOrMan();
+        openMe.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    /** 
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -149,8 +185,10 @@ public class frm_mainmenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEmpRegistration;
     private javax.swing.JButton btnLogut;
+    private javax.swing.JButton btnNewTransaction;
     private javax.swing.JButton btnPrdRegistration;
     private javax.swing.JButton btnViewRecords;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

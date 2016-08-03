@@ -5,13 +5,12 @@
  */
 package salesandinventory;
 import java.awt.HeadlessException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JTextField;
@@ -23,25 +22,28 @@ import javax.swing.JTextField;
  */
 public final class frm_EmpForm extends javax.swing.JFrame {
 SalesAndInventory sai = new SalesAndInventory();
+RNG_Sama rngSama = new RNG_Sama();
 
 ResultSet rs = null;
 String sql;
-Boolean userIsAdmin = false;
 
-int userId = 0,tempUserID = 0;
-String  fname = "",
-        mname = "",
-        lname = "",
-        gender = "",
-        birthday = "",
-        birthplace = "",
-        address = "",
-        email = "",
-        contactnum = "",
-        username = "",
-        password = "",
-        searchThisID = "";
-Boolean isAdmin = true;
+//these are the new datatypes...
+public String PASSWORD = "password",
+        USER_EMPLOYEENAME = "",
+        USER_ROLE = "",
+        USER_ADDRESS = "",
+        USER_EMAIL = "",
+        USER_GENDER = "",
+        USER_BIRTHDATE = "";
+    
+    public int EMPLOYEE_ID = 0,
+            USER_AGE = 0,
+            USER_CONTACTNUMBER = 0;
+    public double USER_RATE = 0.0;
+    
+    public boolean ISADMIN = false,
+            ISOLD = false;
+
     /**
      * Creates new form frm_EmpForm
      */
@@ -50,96 +52,101 @@ Boolean isAdmin = true;
     public frm_EmpForm() {
         initComponents();
         //BUTTON GROUP        
-        ButtonGroup userType = new ButtonGroup();
-        userType.add(rdAdmin);
-        userType.add(rdEmp);
         ButtonGroup userGender = new ButtonGroup();
         userGender.add(rdMale);
         userGender.add(rdFemale);
         //BUTTON GROUP ^^
         setResizable(false);
-        RNGmaker();
+        EMPLOYEE_ID = rngSama.RNGmaker();
+        txtEmpId.setText(Integer.toString(rngSama.RNGmaker()));
         btnUpdateUserInfo.setVisible(SalesAndInventory.isAdminPresent);
         System.out.println("@ frm_EmpForm.java");
+        
     }
-    ///////////////////////////////////////////////////////////////////////////////////
-    //this function GENERATES a RANDOM NUMBER
-    public void RNGmaker(){
+    
+    ///////////////////////////////////////////
+    //this function GENERATES a RANDOM NUMBER//
+    ///////////////////////////////////////////
+    /*
+    protected void RNGmaker(){
         Random randomGenerator = new Random();
-        tempUserID = randomGenerator.nextInt(999999999);
-        userId = tempUserID;
-        txtUserID.setText(Integer.toString(tempUserID));
-    }
-    //THIS FUNCTION just clears the textbox.. this is a void function
-    public void clearTextBoxes(){
-        txtFirstName.setText(null);
-        txtMiddleName.setText(null);
-        txtLastName.setText(null);
-        txtBirthDate.setText(null);
-        txtBirhtPlace.setText(null);
+        EMPLOYEE_ID = randomGenerator.nextInt(999999999);
+        txtEmpId.setText(Integer.toString(EMPLOYEE_ID));
+    }*/
+    
+    ///////////////////////////////////////////////////////////////////
+    //THIS FUNCTION just clears the textbox.. this is a void function//
+    ///////////////////////////////////////////////////////////////////
+    protected void clearTextBoxes(){
+        txtEmployeeName.setText(null);
+        txtAge.setText(null);
+        txtRate.setText(null);
         txtAddress.setText(null);
         txtEmailAddress.setText(null);
         txtContactNumber.setText(null);
-        txtUsername.setText(null);
-        txtPassword.setText(null);
+        EMPLOYEE_ID = rngSama.RNGmaker();
+        txtEmpId.setText(Integer.toString(rngSama.RNGmaker()));
     }
-    //The object parser will get all text FROM 
-    public void objectParser(){
-        //dont forget to check this part
+    
+    /////////////////////////////////////////////
+    //The object parser will get all text FROM //
+    //the Fields of Input                      //
+    /////////////////////////////////////////////
+    protected void objectParser(){
+        this.EMPLOYEE_ID = Integer.parseInt(txtEmpId.getText());
+        this.USER_EMPLOYEENAME = txtEmployeeName.getText();
+        this.USER_ROLE = (String)txtPosition.getSelectedItem();
+        this.USER_RATE = Double.parseDouble(txtRate.getText());
+        this.USER_ADDRESS = txtAddress.getText();
+        this.USER_AGE = Integer.parseInt(txtAge.getText());
         
-        this.isAdmin = rdAdmin.isSelected();
-        if (rdMale.isSelected()){
-            this.gender = "M";
+        this.USER_CONTACTNUMBER = Integer.parseInt(txtContactNumber.getText());
+        this.USER_EMAIL = txtEmailAddress.getText();
+        if (rdMale.isSelected() == true){
+            this.USER_GENDER = "M";
+        }else{
+            this.USER_GENDER = "F";
         }
-        else{
-            this.gender = "F";
-        }
-        this.fname = txtFirstName.getText();
-        this.mname = txtMiddleName.getText();
-        this.lname = txtLastName.getText();
-        this.birthday = txtBirthDate.getText();
-        this.birthplace = txtBirhtPlace.getText();
-        this.address = txtAddress.getText();
-        this.email = txtEmailAddress.getText();
-        this.contactnum = txtContactNumber.getText();
-        this.username = txtUsername.getText();
-        this.password = txtPassword.getText();
+        this.USER_ROLE = (String) txtPosition.getSelectedItem();
     }
-    //this function DUMPS all the data from the objects into the TEXTFIELDS
-
-    public void transferDataToTextField(){
-    switch (gender) {
+    
+    ////////////////////////////////////////
+    //this function DUMPS all the data    //
+    //from the objects into the TEXTFIELDS//
+    ////////////////////////////////////////
+    protected void transferDataToTextField(){
+        this.txtEmpId.setText(Integer.toString(this.EMPLOYEE_ID));
+        this.txtEmployeeName.setText(this.USER_EMPLOYEENAME);
+        this.txtPosition.setSelectedItem(this.USER_ROLE);
+        this.txtRate.setText(Double.toString(this.USER_RATE));
+        this.txtAddress.setText(this.USER_ADDRESS);
+        this.txtAge.setText(Integer.toString(this.USER_AGE));
+        this.txtContactNumber.setText(Integer.toString(this.USER_CONTACTNUMBER));
+        this.txtEmailAddress.setText(this.USER_EMAIL);
+        
+        switch (this.USER_GENDER){
         case "M":
-            rdMale.setSelected(true);
+            this.rdMale.setSelected(true);
             break;
         case "F":
-            rdFemale.setSelected(true);
+            this.rdFemale.setSelected(true);
             break;
-    }
-        txtFirstName.setText(fname);
-        txtMiddleName.setText(mname);
-        txtLastName.setText(lname);
-        txtAddress.setText(address);
-        txtBirthDate.setText(birthday);
-        txtBirhtPlace.setText(birthplace);
-        txtEmailAddress.setText(email);
-        txtContactNumber.setText(contactnum);
-        txtUsername.setText(username);
-        txtPassword.setText(password);
-        txtUserID.setText(Integer.toString(userId));
-        if (isAdmin == true){
-        rdAdmin.setSelected(true);
         }
+        this.txtPosition.setSelectedItem(this.USER_ROLE);
     }
-    //these following functions will detect if there are STRANGE inputs in the fields
+    /////////////////////////////////
+    //these following functions    //
+    //will detect if there are     //
+    //STRANGE inputs in the fields //
+    /////////////////////////////////
     //TYPE EMAIL
-    public boolean typeEmail(){
+    protected boolean typeEmail(){
         System.out.println("Called typeEmail()");
         
         return (txtEmailAddress.getText()).matches(SalesAndInventory.EMAIL_REGEX);
     }
     //TYPE NUMERIC
-    public boolean typeNumeric(){
+    protected boolean typeNumeric(){
         System.out.println("Called typeNumeric()");
         try
         {
@@ -154,28 +161,21 @@ Boolean isAdmin = true;
         }
     }
     
-        
-    //TYPE NULL
-    public boolean checkTextFields(){
+    protected boolean checkTextFields(){
         System.out.println("Called checkTextFields()");
         boolean value = false;
-        JTextField fields[]= new JTextField[10];
-        
-        fields[0] = txtUsername;
-        fields[1] = txtPassword;
-        fields[2] = txtFirstName;
-        fields[3] = txtMiddleName;
-        fields[4] = txtLastName;
-        fields[5] = txtAddress;
-        fields[6] = txtBirthDate;
-        fields[7] = txtBirhtPlace;
-        fields[8] = txtContactNumber;
-        fields[9] = txtEmailAddress;
-                
+        JTextField fields[]= new JTextField[6];
+        fields[0] = txtEmployeeName;
+        fields[1] = txtRate;
+        fields[2] = txtAddress;
+        fields[3] = txtAge;
+        fields[4] = txtContactNumber;
+        fields[5] = txtEmailAddress;
         for(int i = 0; i < fields.length ;++i) {
             if(fields[i].getText().isEmpty()){
                 System.out.println("FIELD["+i+"] NULL!!!");
                 value = true;
+                break;
             }
         }
         System.out.println("checkTextFields() = " + value);
@@ -185,6 +185,8 @@ Boolean isAdmin = true;
         */
         return value;
     }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -198,26 +200,12 @@ Boolean isAdmin = true;
         btnUpdateUserInfo = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnSearchID = new javax.swing.JButton();
-        txtUserID = new javax.swing.JTextField();
+        txtEmpId = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        rdAdmin = new javax.swing.JRadioButton();
-        rdEmp = new javax.swing.JRadioButton();
-        txtPassword = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtMiddleName = new javax.swing.JTextField();
-        txtFirstName = new javax.swing.JTextField();
+        txtEmployeeName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtAddress = new javax.swing.JTextField();
-        txtBirthDate = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtLastName = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtBirhtPlace = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtContactNumber = new javax.swing.JTextField();
         txtEmailAddress = new javax.swing.JTextField();
@@ -226,6 +214,13 @@ Boolean isAdmin = true;
         jLabel9 = new javax.swing.JLabel();
         rdFemale = new javax.swing.JRadioButton();
         btnClearAll = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        txtAge = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txtPosition = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        txtRate = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -237,9 +232,9 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnInsert);
-        btnInsert.setBounds(10, 560, 150, 50);
+        btnInsert.setBounds(10, 600, 210, 50);
 
-        btnUpdateUserInfo.setText("Update User");
+        btnUpdateUserInfo.setText("Update User (ADMIN)");
         btnUpdateUserInfo.setToolTipText("This button updates the SEARCHED user");
         btnUpdateUserInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,7 +242,7 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnUpdateUserInfo);
-        btnUpdateUserInfo.setBounds(170, 560, 120, 50);
+        btnUpdateUserInfo.setBounds(130, 540, 200, 50);
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -256,7 +251,7 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnCancel);
-        btnCancel.setBounds(230, 620, 210, 50);
+        btnCancel.setBounds(230, 660, 210, 50);
 
         btnSearchID.setText("Search User ID");
         btnSearchID.setToolTipText("");
@@ -266,128 +261,67 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnSearchID);
-        btnSearchID.setBounds(10, 620, 210, 50);
+        btnSearchID.setBounds(10, 660, 210, 50);
 
-        txtUserID.setEditable(false);
-        txtUserID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtUserID);
-        txtUserID.setBounds(160, 100, 140, 30);
+        txtEmpId.setEditable(false);
+        txtEmpId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(txtEmpId);
+        txtEmpId.setBounds(140, 100, 200, 30);
 
         jLabel12.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("employee registration");
         jLabel12.setToolTipText("");
         getContentPane().add(jLabel12);
-        jLabel12.setBounds(40, 10, 390, 60);
-
-        rdAdmin.setText("Type: Admin");
-        getContentPane().add(rdAdmin);
-        rdAdmin.setBounds(160, 210, 120, 23);
-
-        rdEmp.setText("Type: Employee");
-        getContentPane().add(rdEmp);
-        rdEmp.setBounds(160, 230, 120, 23);
-
-        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtPassword);
-        txtPassword.setBounds(230, 160, 120, 30);
-
-        jLabel11.setText("Password");
-        getContentPane().add(jLabel11);
-        jLabel11.setBounds(260, 140, 60, 14);
-
-        txtUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtUsername);
-        txtUsername.setBounds(120, 160, 110, 30);
-
-        jLabel10.setText("Username");
-        getContentPane().add(jLabel10);
-        jLabel10.setBounds(150, 140, 70, 14);
-
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Last Name");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(60, 340, 70, 14);
+        jLabel12.setBounds(30, 10, 390, 60);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("First Name");
+        jLabel1.setText("Employee Name");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(30, 280, 100, 20);
+        jLabel1.setBounds(30, 210, 100, 20);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Middle Name");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(50, 310, 80, 14);
-
-        txtMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtMiddleName);
-        txtMiddleName.setBounds(140, 300, 200, 30);
-
-        txtFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtFirstName);
-        txtFirstName.setBounds(140, 270, 200, 30);
+        txtEmployeeName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(txtEmployeeName);
+        txtEmployeeName.setBounds(140, 200, 200, 30);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Address");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(80, 370, 50, 14);
+        jLabel4.setBounds(80, 330, 50, 16);
 
         txtAddress.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtAddress);
-        txtAddress.setBounds(140, 360, 200, 30);
-
-        txtBirthDate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtBirthDate);
-        txtBirthDate.setBounds(140, 390, 200, 30);
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Birthdate");
-        jLabel5.setToolTipText("");
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(70, 400, 60, 14);
-
-        txtLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtLastName);
-        txtLastName.setBounds(140, 330, 200, 30);
-
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Birth Place");
-        getContentPane().add(jLabel7);
-        jLabel7.setBounds(60, 460, 70, 14);
-
-        txtBirhtPlace.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(txtBirhtPlace);
-        txtBirhtPlace.setBounds(140, 450, 200, 30);
+        txtAddress.setBounds(140, 320, 200, 30);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Contact Number");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(30, 430, 100, 14);
+        jLabel6.setBounds(30, 390, 100, 16);
 
         txtContactNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtContactNumber);
-        txtContactNumber.setBounds(140, 420, 200, 30);
+        txtContactNumber.setBounds(140, 380, 200, 30);
 
         txtEmailAddress.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtEmailAddress);
-        txtEmailAddress.setBounds(140, 480, 200, 30);
+        txtEmailAddress.setBounds(140, 410, 200, 30);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Email Address");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(40, 490, 90, 14);
+        jLabel8.setBounds(40, 420, 90, 16);
 
         rdMale.setText("Male");
         getContentPane().add(rdMale);
-        rdMale.setBounds(170, 520, 60, 23);
+        rdMale.setBounds(170, 460, 60, 25);
 
         jLabel9.setText("Gender");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(90, 520, 80, 14);
+        jLabel9.setBounds(90, 460, 80, 16);
 
         rdFemale.setText("Female");
         getContentPane().add(rdFemale);
-        rdFemale.setBounds(230, 520, 100, 23);
+        rdFemale.setBounds(230, 460, 100, 25);
 
         btnClearAll.setText("Clear All");
         btnClearAll.addActionListener(new java.awt.event.ActionListener() {
@@ -396,48 +330,88 @@ Boolean isAdmin = true;
             }
         });
         getContentPane().add(btnClearAll);
-        btnClearAll.setBounds(300, 560, 140, 50);
+        btnClearAll.setBounds(230, 600, 210, 50);
 
-        setSize(new java.awt.Dimension(466, 719));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("EMPLOYEE ID");
+        getContentPane().add(jLabel14);
+        jLabel14.setBounds(180, 80, 110, 16);
+
+        txtAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(txtAge);
+        txtAge.setBounds(140, 350, 200, 30);
+
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("Age");
+        getContentPane().add(jLabel13);
+        jLabel13.setBounds(80, 360, 48, 16);
+
+        txtPosition.setMaximumRowCount(3);
+        txtPosition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Cashier" }));
+        txtPosition.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        txtPosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPositionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtPosition);
+        txtPosition.setBounds(140, 230, 200, 30);
+
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel15.setText("Position");
+        getContentPane().add(jLabel15);
+        jLabel15.setBounds(80, 240, 48, 16);
+
+        txtRate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(txtRate);
+        txtRate.setBounds(140, 260, 200, 30);
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Rate");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(90, 270, 41, 16);
+
+        setSize(new java.awt.Dimension(469, 769));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
+        //////////////////////////////////////////////
+        //THIS IS THE INSERTION OF THE SQL STRING   //
+        //INTO THE DATABASE                         //
+        //////////////////////////////////////////////
         typeNumeric();
         if (checkTextFields() == false && typeNumeric() == true && typeEmail()== true ){
-           
             objectParser();
-        sql = "INSERT INTO `user_reg`(`Username`, `Password`, `isAdmin`, `user_id`, `user_FirstName`, `user_MiddleName`, `user_LastName`, `user_Address`, `user_Email`, `user_Gender`, `user_Birthdate`, `user_BirthPlace`, `user_ContactNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            sql = "INSERT INTO `user_reg`(`employee_id`, `password`, `isAdmin`,`isOld`, `user_EmployeeName`, `user_Role`, `user_Rate`, `user_Address`, `user_Age`, `user_ContactNumber`, `user_Email`, `user_Gender`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","");
-                PreparedStatement pStmt = con.prepareStatement(sql);
-                
-                pStmt.setString (1, username);
-                pStmt.setString (2, password);
-                pStmt.setBoolean (3, isAdmin);
-                pStmt.setInt (4, userId);
-                pStmt.setString (5, fname);
-                pStmt.setString (6, mname);
-                pStmt.setString (7, lname);
-                pStmt.setString (8, address);
-                pStmt.setString (9, email);
-                pStmt.setString (10, gender);
-                pStmt.setString (11, birthday);
-                pStmt.setString (12, birthplace);
-                pStmt.setString (13, contactnum);
+            PreparedStatement pStmt = sai.chainSmokersConnection().prepareStatement(sql);
+                //NEED TO MODIFY THIS THING AGAIN!!
+                pStmt.setInt (1, EMPLOYEE_ID);
+                pStmt.setString (2, PASSWORD);
+                pStmt.setBoolean (3, ISADMIN);
+                pStmt.setBoolean (4, ISOLD);
+                pStmt.setString (5, USER_EMPLOYEENAME);
+                pStmt.setString (6, USER_ROLE);
+                pStmt.setDouble (7, USER_RATE);
+                pStmt.setString (8, USER_ADDRESS);
+                pStmt.setInt (9, USER_AGE);
+                pStmt.setInt (10, USER_CONTACTNUMBER);
+                pStmt.setString (11, USER_EMAIL);
+                pStmt.setString (12, USER_GENDER);
                 pStmt.execute();
-                JOptionPane.showMessageDialog(null,"Registration Success!!");
-                 
+                
+                JOptionPane.showMessageDialog(null,"Successfull registration for USER: "+Integer.toString(EMPLOYEE_ID));
+                pStmt.close();
+                sai.chainSmokersConnection().close();
         }catch(ClassNotFoundException | SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         //this clears the textboxes..... obviously
         clearTextBoxes();
-        RNGmaker();
-        txtUserID.setText(Integer.toString(userId));
+        
+        txtEmpId.setText(Integer.toString(EMPLOYEE_ID));
         }//END of IF segment
         else{
            JOptionPane.showMessageDialog(null, "One or more of the fields don't have a correct input...\nPlease re-check ALL the fields and ensure that they have the correct input...");
@@ -446,38 +420,33 @@ Boolean isAdmin = true;
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateUserInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserInfoActionPerformed
-        // TODO add your handling code here:
-        
+        ///////////////////////////////////////////////////////////////////////
+        //THIS CODE HERE IS FOR UPDATING THE DATABASE WITH THE NEW USERINFO  //
+        //THE CURRENT PROBLEMS ARE THE UNRELIBILITY OF THE SQL CONNECTION... //
+        ///////////////////////////////////////////////////////////////////////
         objectParser();
         if (checkTextFields() == false && typeNumeric() == true && typeEmail()== true){
-        sql = "UPDATE user_reg SET Username = ?,Password = ?,isAdmin = ?,user_FirstName = ?,user_MiddleName = ?, user_LastName = ?, user_Address = ?,user_Email = ?,user_Gender = ?,user_Birthdate = ?,user_BirthPlace = ?,user_ContactNumber = ? WHERE user_id = ?";
+        sql = "UPDATE user_reg SET password = ?, user_EmployeeName = ?, user_Role = ?, user_Rate = ?, user_Address = ?, user_Age = ?, user_ContactNumber = ?, user_Email = ?, user_Gender = ? WHERE employee_Id = ?";
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")){
-                objectParser();
-                //Modified this part just incase it could work with the SAI classes
-                /*
-                THESE Statements will function just as parameters do in visualBaSIC
-                */
-                PreparedStatement pStmt;
-                pStmt = con.prepareStatement(sql);
-                pStmt.setString (1, username);
-                pStmt.setString (2, password);
-                pStmt.setBoolean (3, isAdmin);
-                pStmt.setString (4, fname);
-                pStmt.setString (5, mname);
-                pStmt.setString (6, lname);
-                pStmt.setString (7, address);
-                pStmt.setString (8, email);
-                pStmt.setString (9, gender);
-                pStmt.setString (10, birthday);
-                pStmt.setString (11, birthplace);
-                pStmt.setString (12, contactnum);
-                pStmt.setInt (13, userId);
-                pStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Registration Success!!");
-                con.close();
-            }         
+            objectParser();
+            PreparedStatement pStmt;
+            pStmt = sai.chainSmokersConnection().prepareStatement(sql);
+            pStmt.setString (1, PASSWORD);
+            pStmt.setString (2, USER_EMPLOYEENAME);
+            pStmt.setString (3, USER_ROLE);
+            pStmt.setDouble (4, USER_RATE);
+            pStmt.setString (5, USER_ADDRESS);
+            pStmt.setDouble (6, USER_AGE);
+            pStmt.setInt (7, USER_CONTACTNUMBER);
+            pStmt.setString (8, USER_EMAIL);
+            pStmt.setString (9, USER_GENDER);
+            pStmt.setString (10, USER_EMAIL);
+            pStmt.setString (11, USER_GENDER);
+            pStmt.setInt (12, EMPLOYEE_ID);
+            pStmt.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Update Success for USER: "+EMPLOYEE_ID);
+            sai.chainSmokersConnection().close();
+            pStmt.close();
         }catch(ClassNotFoundException | SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -489,52 +458,41 @@ Boolean isAdmin = true;
     }//GEN-LAST:event_btnUpdateUserInfoActionPerformed
 
     private void btnSearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIDActionPerformed
-        // TODO add your handling code here:
-        SalesAndInventory sai = new SalesAndInventory();
-        //Need to do more arguments here
-        searchThisID =  JOptionPane.showInputDialog("Type in the ID you are looking for... ");
-        if (searchThisID != null){ //START OF NO NULL INPUT!
-            try{
-                tempUserID = Integer.parseInt(searchThisID);
-            sai.sql = "SELECT * FROM user_reg WHERE user_id = '" + tempUserID + "'";
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")) {
-                Statement stmt = con.createStatement();
-                rs = stmt.executeQuery(sai.sql);
-                
-                if(rs.next()){//IF USER EXISTS!!
-                JOptionPane.showMessageDialog(null,"The userID " + tempUserID + " Exists");
-                username = rs.getString("Username");
-                password =rs.getString("Password");
-                fname = rs.getString("user_FirstName");
-                mname = rs.getString("user_MiddleName");
-                lname = rs.getString("user_LastName");
-                birthday = rs.getString("user_Birthdate");
-                birthplace = rs.getString("user_BirthPlace");
-                address = rs.getString("user_Address");
-                email = rs.getString("user_Email");
-                contactnum = rs.getString("user_ContactNumber");
-                userId = rs.getInt("user_id");
-                isAdmin = rs.getBoolean("isAdmin");
-                gender = rs.getString("user_Gender");
-               
-                transferDataToTextField();
-                
-                con.close();
+    try {
+        String anotherString =  JOptionPane.showInputDialog("Type in the ID / NAME you are looking for... ");
+        
+        if (anotherString != null){
+            sql = "SELECT * FROM user_reg WHERE (employee_Id = '"+anotherString+"') OR (user_EmployeeName = '"+anotherString+"')";
+            Statement stmt = sai.chainSmokersConnection().createStatement();
+            ResultSet qqrs = stmt.executeQuery(sql);
+            while(qqrs.next()){
+                txtEmpId.setText(qqrs.getString("employee_Id"));
+                txtEmployeeName.setText(qqrs.getString("user_EmployeeName"));
+                txtRate.setText(Double.toString(qqrs.getDouble("user_Rate")));
+                txtAddress.setText(qqrs.getString("user_Address"));
+                txtAge.setText(Integer.toString(qqrs.getInt("user_Age")));
+                txtContactNumber.setText(Integer.toString(qqrs.getInt("user_ContactNumber")));
+                txtEmailAddress.setText(qqrs.getString("user_Email"));
+                txtPosition.setSelectedItem(qqrs.getString("user_Role"));
+                switch (qqrs.getString("user_Gender")){
+                    case "M":
+                        this.rdMale.setSelected(true);
+                        break;
+                    case "F":
+                        this.rdFemale.setSelected(true);
+                        break;
                 }
-                else{//IF USER ID DOESNT EXIST
-                    JOptionPane.showMessageDialog(null, "This user doesnt Exist!!");
-                }
-            }         
-        }catch(ClassNotFoundException | SQLException | HeadlessException e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            qqrs.close();
+            stmt.close();
+            sai.chainSmokersConnection().close();
+        }else{
+            JOptionPane.showMessageDialog(null, rs);
+            JOptionPane.showMessageDialog(null, "Please enter non-NULL data");
         }
-        }//END OF NO NULL
-        else{
-            JOptionPane.showMessageDialog(null,"Doesnt work... You probably missed a field or two...");
-        }
-        //up to here
-       
+    } catch (ClassNotFoundException | SQLException ex) {
+        Logger.getLogger(frm_EmpForm.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_btnSearchIDActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -546,9 +504,12 @@ Boolean isAdmin = true;
 
     private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
         // TODO add your handling code here:
-        RNGmaker();
         clearTextBoxes();
     }//GEN-LAST:event_btnClearAllActionPerformed
+
+    private void txtPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPositionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPositionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -588,32 +549,25 @@ Boolean isAdmin = true;
     private javax.swing.JButton btnSearchID;
     private javax.swing.JButton btnUpdateUserInfo;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JRadioButton rdAdmin;
-    private javax.swing.JRadioButton rdEmp;
     private javax.swing.JRadioButton rdFemale;
     private javax.swing.JRadioButton rdMale;
     private javax.swing.JTextField txtAddress;
-    private javax.swing.JTextField txtBirhtPlace;
-    private javax.swing.JTextField txtBirthDate;
+    private javax.swing.JTextField txtAge;
     private javax.swing.JTextField txtContactNumber;
     private javax.swing.JTextField txtEmailAddress;
-    private javax.swing.JTextField txtFirstName;
-    private javax.swing.JTextField txtLastName;
-    private javax.swing.JTextField txtMiddleName;
-    private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtUserID;
-    private javax.swing.JTextField txtUsername;
+    private javax.swing.JTextField txtEmpId;
+    private javax.swing.JTextField txtEmployeeName;
+    private javax.swing.JComboBox<String> txtPosition;
+    private javax.swing.JTextField txtRate;
     // End of variables declaration//GEN-END:variables
 
     private boolean isNumeric(String searchThisID) {

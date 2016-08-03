@@ -5,8 +5,6 @@
  */
 package salesandinventory;
 import java.awt.HeadlessException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +17,7 @@ import javax.swing.JOptionPane;
 public class frm_login extends javax.swing.JFrame{
     SalesAndInventory sai = new SalesAndInventory();
     String sql = "",user_txt = "", pass_txt = "", user_db = "", pass_db = "", userType="";
-    Boolean isAdministrator = null;
+    Boolean isAdministrator = null, isOld = null;
     
     /**
      * Creates new form frm_login
@@ -55,7 +53,7 @@ public class frm_login extends javax.swing.JFrame{
             }
         });
         getContentPane().add(btnLogin);
-        btnLogin.setBounds(10, 190, 80, 40);
+        btnLogin.setBounds(10, 210, 80, 40);
 
         btnExit.setText("Exit");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -64,25 +62,25 @@ public class frm_login extends javax.swing.JFrame{
             }
         });
         getContentPane().add(btnExit);
-        btnExit.setBounds(180, 190, 80, 40);
+        btnExit.setBounds(230, 210, 80, 40);
 
         txtUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtUsername.setToolTipText("Input your username here.... ");
         getContentPane().add(txtUsername);
-        txtUsername.setBounds(12, 91, 250, 40);
+        txtUsername.setBounds(10, 90, 300, 40);
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("authentication");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 0, 250, 52);
+        jLabel1.setBounds(40, 0, 250, 52);
 
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPassword.setToolTipText("Input your password here...");
         getContentPane().add(txtPassword);
-        txtPassword.setBounds(10, 140, 250, 40);
+        txtPassword.setBounds(10, 140, 300, 40);
 
-        setSize(new java.awt.Dimension(292, 283));
+        setSize(new java.awt.Dimension(335, 305));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -91,52 +89,55 @@ public class frm_login extends javax.swing.JFrame{
         user_txt = txtUsername.getText();
         pass_txt = txtPassword.getText();
         
-        sql = "SELECT * FROM user_reg WHERE (Username = '" + user_txt + "' AND Password = '" + pass_txt + "')";
+        sql = "SELECT employee_Id, password, isAdmin, isOld FROM user_reg WHERE (employee_Id = '" + user_txt + "' AND password = '" + pass_txt + "')";
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_sandv","root","")) {
-                Statement stmt = con.createStatement();
+                Statement stmt = sai.chainSmokersConnection().createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 
                 while(rs.next()){
-                    user_db = rs.getString("Username");
-                    pass_db = rs.getString("Password");
+                    user_db = rs.getString("employee_Id");
+                    pass_db = rs.getString("password");
                     isAdministrator = rs.getBoolean("isAdmin");
+                    isOld = rs.getBoolean("isOld");
                 }
                 //These statements just print out the status on the console.. of java.. (͡° ͜ʖ ͡°)
                 System.out.println("ADMIN STATE @ AFTER While LOOP/REsultSet frm_login.java = " + isAdministrator); //delete this code when done
-                
-                
                 if ((user_txt.equals(user_db)) && (pass_txt.equals(pass_db))){
                     System.out.println("ADMIN STATE @ DECISION IS USERADMIN ? = " + SalesAndInventory.isAdminPresent ); // should be null
                     
-                    if (isAdministrator == true){//THis happens if ADMIN is using the system
+                    if (isAdministrator == true)//THis happens if ADMIN is using the system
                         userType = "ADM";
-                        
-                    }
-                    else{//THis happens if EMPLOYEE is using the sytem
+                    else//THis happens if EMPLOYEE is using the sytem
                         userType = "EMP";
-                    }
-                    
                     SalesAndInventory.isAdminPresent = isAdministrator;//THIS SHOULD NOT BE NULL
-                    
                     System.out.println("ADMIN STATE @ AFTER IF/ELSE setting USERTYPE frm_login.java = " + isAdministrator); //delete this code when done
-                    
                     System.out.println("frm_login.java = " + SalesAndInventory.isAdminPresent + " " + userType );
                     JOptionPane.showMessageDialog(this, "Connected to DB as " + userType) ;
                     
-                    frm_mainmenu openMainMenu = new frm_mainmenu();
-                    openMainMenu.setVisible(true);
-                    dispose();
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "Incorrect Password");
+                    dataForModifyPassword mod = new dataForModifyPassword();
                     
+                    mod.setUserName(user_db);
+                    mod.setPassword(pass_db);
+                    mod.setUserType(userType);
+                    
+                    //THIS IS FOR checking if the user has already modified his password...
+                    if (isOld == true){
+                        frm_mainmenu openMainMenu = new frm_mainmenu();
+                        openMainMenu.setVisible(true);
+                        dispose();
+                    }else{
+                        frm_ModifyPassword openForgetPassword = new frm_ModifyPassword();
+                        openForgetPassword.setVisible(true);
+                        dispose();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Incorrect Credentials... \nMaybe you have entered a wrong USERNAME or Password...");
                 }
-            }
-        }catch(ClassNotFoundException | SQLException | HeadlessException e){
+                sai.chainSmokersConnection().close();
+        }catch(SQLException | HeadlessException | ClassNotFoundException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+        
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
