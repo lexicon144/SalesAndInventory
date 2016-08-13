@@ -5,12 +5,17 @@
  */
 package salesandinventory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  *
  * @author John
  */
 public class frm_mainmenu extends javax.swing.JFrame {
     SalesAndInventory sai = new SalesAndInventory();//<-- this guys instantiates the WHOLE CLASS AGAIN!! MADA***
+    dataForCurrentUser ahri = new dataForCurrentUser();
     /**
      * Creates new form frm_mainmenu
      */
@@ -18,7 +23,18 @@ public class frm_mainmenu extends javax.swing.JFrame {
     public frm_mainmenu() {
         initComponents();
         setResizable(false);
+        setSize(405, 578);
         System.out.println("ADMIN STATE @ frm_mainmenu = " + SalesAndInventory.isAdminPresent);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        LBLuserEmployeeName.setText(ahri.getUserEmployeeName());
+        LBLuserRole.setText(ahri.getUserRole());
+        LBLuserAddress.setText(ahri.getUserAddress());
+        LBLuserAge.setText(Integer.toString(ahri.getUserAge()));
+        LBLuserEmail.setText(ahri.getUserEmail());
+        LBLuserContactNumber.setText(Integer.toString(ahri.getUserContactNumber()));
+        LBLuserGender.setText(ahri.getUserGender());
+        Calendar zilean = Calendar.getInstance();
+        LBLdate.setText(dateFormat.format(zilean.getTime()));
     }
 
     /**
@@ -31,41 +47,40 @@ public class frm_mainmenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnEmpRegistration = new javax.swing.JButton();
-        btnPrdRegistration = new javax.swing.JButton();
         btnLogut = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnViewRecords = new javax.swing.JButton();
-        btnNewTransaction = new javax.swing.JButton();
+        btnShowDetails = new javax.swing.JToggleButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        LBLuserEmployeeName = new javax.swing.JLabel();
+        LBLuserRole = new javax.swing.JLabel();
+        LBLuserAddress = new javax.swing.JLabel();
+        LBLuserAge = new javax.swing.JLabel();
+        LBLuserEmail = new javax.swing.JLabel();
+        LBLuserGender = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        LBLuserContactNumber = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        LBLdate = new javax.swing.JLabel();
+        btnEmpRegistration = new javax.swing.JButton();
+        btnPrdRegistration = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnNewTransaction = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 204, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().setLayout(null);
 
-        btnEmpRegistration.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        btnEmpRegistration.setText("Employee Management");
-        btnEmpRegistration.setToolTipText("<html>\nClick this if you want to Add a new EMPLOYEE\n<br>\nOR\n<br>\nModify an existing EMPLOYEE\n</html>");
-        btnEmpRegistration.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEmpRegistrationActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnEmpRegistration);
-        btnEmpRegistration.setBounds(30, 90, 340, 50);
-
-        btnPrdRegistration.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        btnPrdRegistration.setText("Product Management");
-        btnPrdRegistration.setToolTipText("<html>\nClick this if you want to Add a new PRODUCT\n<br>\nOR\n<br>\nModify an existing PROUCT\n</html>");
-        btnPrdRegistration.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrdRegistrationActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPrdRegistration);
-        btnPrdRegistration.setBounds(30, 140, 340, 50);
-
-        btnLogut.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnLogut.setBackground(new java.awt.Color(255, 153, 153));
+        btnLogut.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         btnLogut.setText("Log Out");
         btnLogut.setToolTipText("<html>\nClick this if you want to LOGOUT :(\n</html>");
         btnLogut.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +89,7 @@ public class frm_mainmenu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLogut);
-        btnLogut.setBounds(250, 490, 120, 50);
+        btnLogut.setBounds(30, 490, 120, 50);
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -82,22 +97,167 @@ public class frm_mainmenu extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(100, 10, 194, 52);
 
-        btnViewRecords.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnViewRecords.setBackground(new java.awt.Color(204, 204, 255));
+        btnViewRecords.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
         btnViewRecords.setText("View Records (ALPHA)");
-        getContentPane().add(btnViewRecords);
-        btnViewRecords.setBounds(30, 350, 340, 50);
-
-        btnNewTransaction.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        btnNewTransaction.setText("New Transaction....");
-        btnNewTransaction.addActionListener(new java.awt.event.ActionListener() {
+        btnViewRecords.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewTransactionActionPerformed(evt);
+                btnViewRecordsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNewTransaction);
-        btnNewTransaction.setBounds(30, 270, 340, 50);
+        getContentPane().add(btnViewRecords);
+        btnViewRecords.setBounds(30, 380, 340, 60);
 
-        jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnShowDetails.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        btnShowDetails.setText("Show User Details");
+        btnShowDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowDetailsActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnShowDetails);
+        btnShowDetails.setBounds(150, 490, 220, 50);
+
+        jPanel1.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel1.setLayout(null);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Name:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 170, 80, 30);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Role:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(20, 210, 70, 30);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Address:");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(-20, 250, 110, 30);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Age:");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(20, 290, 70, 30);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Email:");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(20, 330, 70, 30);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Gender:");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(-10, 370, 100, 30);
+
+        LBLuserEmployeeName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LBLuserEmployeeName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLuserEmployeeName.setText("jLabel8");
+        LBLuserEmployeeName.setToolTipText("");
+        jPanel1.add(LBLuserEmployeeName);
+        LBLuserEmployeeName.setBounds(100, 170, 240, 30);
+
+        LBLuserRole.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LBLuserRole.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLuserRole.setText("jLabel9");
+        LBLuserRole.setToolTipText("");
+        jPanel1.add(LBLuserRole);
+        LBLuserRole.setBounds(100, 210, 240, 30);
+
+        LBLuserAddress.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LBLuserAddress.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLuserAddress.setText("jLabel10");
+        LBLuserAddress.setToolTipText("");
+        jPanel1.add(LBLuserAddress);
+        LBLuserAddress.setBounds(100, 250, 240, 30);
+
+        LBLuserAge.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LBLuserAge.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLuserAge.setText("jLabel11");
+        LBLuserAge.setToolTipText("");
+        jPanel1.add(LBLuserAge);
+        LBLuserAge.setBounds(100, 290, 240, 30);
+
+        LBLuserEmail.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LBLuserEmail.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLuserEmail.setText("jLabel12");
+        LBLuserEmail.setToolTipText("");
+        jPanel1.add(LBLuserEmail);
+        LBLuserEmail.setBounds(100, 330, 240, 30);
+
+        LBLuserGender.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LBLuserGender.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLuserGender.setText("jLabel13");
+        LBLuserGender.setToolTipText("");
+        jPanel1.add(LBLuserGender);
+        LBLuserGender.setBounds(100, 370, 240, 30);
+
+        jLabel14.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Current User Info");
+        jPanel1.add(jLabel14);
+        jLabel14.setBounds(0, 0, 350, 70);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("<html>\nContact<br>\nNumber<br>\n</html>");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(-40, 430, 130, 40);
+
+        LBLuserContactNumber.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LBLuserContactNumber.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLuserContactNumber.setText("jLabel9");
+        LBLuserContactNumber.setToolTipText("");
+        jPanel1.add(LBLuserContactNumber);
+        LBLuserContactNumber.setBounds(100, 430, 240, 30);
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel9.setText("DATE TODAY:");
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(40, 70, 90, 16);
+
+        LBLdate.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        LBLdate.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LBLdate.setText("jLabel10");
+        jPanel1.add(LBLdate);
+        LBLdate.setBounds(130, 70, 230, 16);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(410, 10, 360, 540);
+
+        btnEmpRegistration.setBackground(new java.awt.Color(204, 255, 204));
+        btnEmpRegistration.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnEmpRegistration.setText("Employee Management");
+        btnEmpRegistration.setToolTipText("<html>\nClick this if you want to Add a new EMPLOYEE\n<br>\nOR\n<br>\nModify an existing EMPLOYEE\n</html>");
+        btnEmpRegistration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmpRegistrationActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEmpRegistration);
+        btnEmpRegistration.setBounds(30, 70, 340, 70);
+
+        btnPrdRegistration.setBackground(new java.awt.Color(153, 255, 204));
+        btnPrdRegistration.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnPrdRegistration.setText("Product Management");
+        btnPrdRegistration.setToolTipText("<html>\nClick this if you want to Add a new PRODUCT\n<br>\nOR\n<br>\nModify an existing PROUCT\n</html>");
+        btnPrdRegistration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrdRegistrationActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnPrdRegistration);
+        btnPrdRegistration.setBounds(30, 140, 340, 70);
+
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
+        jButton1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
         jButton1.setText("Add Supplier Or Manufacturer");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,9 +265,20 @@ public class frm_mainmenu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(30, 190, 340, 50);
+        jButton1.setBounds(30, 210, 340, 70);
 
-        setSize(new java.awt.Dimension(419, 602));
+        btnNewTransaction.setBackground(new java.awt.Color(204, 204, 255));
+        btnNewTransaction.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnNewTransaction.setText("New Transaction....");
+        btnNewTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewTransactionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnNewTransaction);
+        btnNewTransaction.setBounds(30, 320, 340, 60);
+
+        setSize(new java.awt.Dimension(417, 610));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -146,6 +317,21 @@ public class frm_mainmenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnShowDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowDetailsActionPerformed
+        // TODO add your handling code here:
+        if (btnShowDetails.isSelected()== true)
+            setSize(775, 578);
+        else
+             setSize(405, 578);
+    }//GEN-LAST:event_btnShowDetailsActionPerformed
+
+    private void btnViewRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRecordsActionPerformed
+        // TODO add your handling code here:
+        frm_EPReports openMe = new frm_EPReports();
+        openMe.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnViewRecordsActionPerformed
+
     /** 
      * @param args the command line arguments
      */
@@ -183,12 +369,31 @@ public class frm_mainmenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LBLdate;
+    private javax.swing.JLabel LBLuserAddress;
+    private javax.swing.JLabel LBLuserAge;
+    private javax.swing.JLabel LBLuserContactNumber;
+    private javax.swing.JLabel LBLuserEmail;
+    private javax.swing.JLabel LBLuserEmployeeName;
+    private javax.swing.JLabel LBLuserGender;
+    private javax.swing.JLabel LBLuserRole;
     private javax.swing.JButton btnEmpRegistration;
     private javax.swing.JButton btnLogut;
     private javax.swing.JButton btnNewTransaction;
     private javax.swing.JButton btnPrdRegistration;
+    private javax.swing.JToggleButton btnShowDetails;
     private javax.swing.JButton btnViewRecords;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

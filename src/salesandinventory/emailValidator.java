@@ -12,7 +12,13 @@ package salesandinventory;
 public class emailValidator {
     String EMAIL_REGEX = "\"^[\\\\w-_\\\\.+]*[\\\\w-_\\\\.]\\\\\n@([\\\\w]+\\\\.)+[\\\\w]+[\\\\w]$";
     
-	public boolean dva(String takeThisIn){
+    /**
+     * dva will RETURN a BOOLEAN thing..
+     * It will just check some stuff
+     * @param takeThisIn
+     * @return 
+     */
+    public boolean dva(String takeThisIn){
             return takeThisIn.matches(EMAIL_REGEX);
         }
 }

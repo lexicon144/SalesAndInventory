@@ -20,11 +20,15 @@ public class dataForTableBuilding {
     public static void main(String [] args){
         
     }
-    //This Function takes a RESULT SET inside and then
-    //returns a TableModel
-    //THIS tableModel is used to Create
-    //a GOOD LOOKING JTABLE
-    
+    /**
+     * This Function takes a RESULT SET inside and then
+    returns a TableModel
+    THIS tableModel is used to Create
+    a GOOD LOOKING JTABLE
+     * @param takeThisIn
+     * @return
+     * @throws SQLException 
+     */
     public static DefaultTableModel tableModelMaker(ResultSet takeThisIn) throws SQLException {
         ResultSetMetaData metaData = takeThisIn.getMetaData();
         //hell yeah use vectors

@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 public class frm_login extends javax.swing.JFrame{
     SalesAndInventory sai = new SalesAndInventory();
     String sql = "",user_txt = "", pass_txt = "", user_db = "", pass_db = "", userType="";
+    String userUserEmployeeName = "", userRole = "", userAddress = "",userEmail ="",userGender = "";
+    int userAge = 0, userContactNumber = 0;
     Boolean isAdministrator = null, isOld = null;
     
     /**
@@ -37,37 +39,20 @@ public class frm_login extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnLogin = new javax.swing.JButton();
-        btnExit = new javax.swing.JButton();
         txtUsername = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        jPanel1 = new javax.swing.JPanel();
+        btnLogin = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnLogin);
-        btnLogin.setBounds(10, 210, 80, 40);
-
-        btnExit.setText("Exit");
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnExit);
-        btnExit.setBounds(230, 210, 80, 40);
-
         txtUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtUsername.setToolTipText("Input your username here.... ");
         getContentPane().add(txtUsername);
-        txtUsername.setBounds(10, 90, 300, 40);
+        txtUsername.setBounds(10, 80, 300, 40);
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -78,9 +63,34 @@ public class frm_login extends javax.swing.JFrame{
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPassword.setToolTipText("Input your password here...");
         getContentPane().add(txtPassword);
-        txtPassword.setBounds(10, 140, 300, 40);
+        txtPassword.setBounds(10, 130, 300, 40);
 
-        setSize(new java.awt.Dimension(335, 305));
+        jPanel1.setLayout(new java.awt.GridLayout());
+
+        btnLogin.setBackground(new java.awt.Color(204, 255, 204));
+        btnLogin.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLogin);
+
+        btnExit.setBackground(new java.awt.Color(255, 204, 204));
+        btnExit.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnExit);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(10, 210, 300, 70);
+
+        setSize(new java.awt.Dimension(335, 338));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -88,8 +98,8 @@ public class frm_login extends javax.swing.JFrame{
         // TODO add your handling code here:
         user_txt = txtUsername.getText();
         pass_txt = txtPassword.getText();
-        
-        sql = "SELECT employee_Id, password, isAdmin, isOld FROM user_reg WHERE (employee_Id = '" + user_txt + "' AND password = '" + pass_txt + "')";
+        //dont forget to modify this again.. just need to put the account details again.
+        sql = "SELECT employee_Id, password, isAdmin, isOld, user_EmployeeName, user_Role, user_Address, user_Age, user_ContactNumber, user_Email, user_Gender FROM user_reg WHERE (employee_Id = '" + user_txt + "' AND password = '" + pass_txt + "')";
         try{
                 Statement stmt = sai.chainSmokersConnection().createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
@@ -99,6 +109,13 @@ public class frm_login extends javax.swing.JFrame{
                     pass_db = rs.getString("password");
                     isAdministrator = rs.getBoolean("isAdmin");
                     isOld = rs.getBoolean("isOld");
+                    userUserEmployeeName = rs.getString("user_EmployeeName");
+                    userAddress = rs.getString("user_Address");
+                    userRole = rs.getString("user_Role");
+                    userAge = rs.getInt("user_Age");
+                    userContactNumber = rs.getInt("user_ContactNumber");
+                    userEmail = rs.getString("user_Email");
+                    userGender = rs.getString("user_Gender");
                 }
                 //These statements just print out the status on the console.. of java.. (͡° ͜ʖ ͡°)
                 System.out.println("ADMIN STATE @ AFTER While LOOP/REsultSet frm_login.java = " + isAdministrator); //delete this code when done
@@ -115,10 +132,19 @@ public class frm_login extends javax.swing.JFrame{
                     JOptionPane.showMessageDialog(this, "Connected to DB as " + userType) ;
                     
                     dataForModifyPassword mod = new dataForModifyPassword();
+                    dataForCurrentUser chara = new dataForCurrentUser();
                     
                     mod.setUserName(user_db);
                     mod.setPassword(pass_db);
                     mod.setUserType(userType);
+                    
+                    chara.setUserEmployeeName(userUserEmployeeName);
+                    chara.setUserAddress(userAddress);
+                    chara.setUserRole(userRole);
+                    chara.setUserContactNumber(userContactNumber);
+                    chara.setUserAge(userAge);
+                    chara.setUserEmail(userEmail);
+                    chara.setUserGender(userGender);
                     
                     //THIS IS FOR checking if the user has already modified his password...
                     if (isOld == true){
@@ -184,6 +210,7 @@ public class frm_login extends javax.swing.JFrame{
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables

@@ -5,7 +5,6 @@
  */
 package salesandinventory;
 
-import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 /**
  *
  * @author dell
@@ -28,15 +26,16 @@ protected double TRANS_TOTALPRICE = 0.0, TRANS_BASEPRICE = 0.0;
 protected String TRANS_PRODUCT = "", TRANS_CLIENT = "";
 protected String TRANS_DATE = String.valueOf(System.currentTimeMillis());
 protected Boolean TRANS_PROCESSED = false;
+public double a=0,b=0,c=0;
     /**
      * Creates new form frm_Sales
      */
     public frm_Transaction() {
         initComponents();
         setResizable(false);
+        nukeTextFields();
         TRANS_ID = rngSama.RNGmaker();
         txtTrans_ID.setText(Integer.toString(TRANS_ID));
-        nukeTextFields();
     }
     /*
     public void setMrRandom(){
@@ -105,12 +104,19 @@ protected Boolean TRANS_PROCESSED = false;
         txtTrans_Product = new javax.swing.JTextField();
         txtTrans_Quantity = new javax.swing.JTextField();
         txtTrans_ID = new javax.swing.JTextField();
-        btnInsert = new javax.swing.JButton();
-        btnClearFields = new javax.swing.JButton();
-        btnRetrieveTransaction = new javax.swing.JButton();
         txt_TotalPrice = new javax.swing.JTextField();
         txtTrans_BasePrice = new javax.swing.JTextField();
         btnBrowseProduct = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        btnCompute = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btnClearFields = new javax.swing.JButton();
+        btnRetrieveTransaction = new javax.swing.JButton();
+        btnInsert = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         jFrame_BrowseProduct.setBounds(new java.awt.Rectangle(0, 0, 393, 292));
@@ -140,7 +146,7 @@ protected Boolean TRANS_PROCESSED = false;
         jScrollPane1.setViewportView(table_Display);
 
         jFrame_BrowseProduct.getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(10, 90, 370, 100);
+        jScrollPane1.setBounds(10, 90, 370, 140);
 
         btn_UseThisProduct.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btn_UseThisProduct.setText("Use this Product!");
@@ -170,56 +176,33 @@ protected Boolean TRANS_PROCESSED = false;
         txtTrans_Product.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTrans_Product.setText("Product name");
         getContentPane().add(txtTrans_Product);
-        txtTrans_Product.setBounds(130, 180, 200, 40);
+        txtTrans_Product.setBounds(190, 200, 200, 40);
 
         txtTrans_Quantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTrans_Quantity.setText("product quantity");
         getContentPane().add(txtTrans_Quantity);
-        txtTrans_Quantity.setBounds(130, 350, 200, 40);
+        txtTrans_Quantity.setBounds(190, 340, 200, 40);
 
         txtTrans_ID.setEditable(false);
         txtTrans_ID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTrans_ID.setText("transID");
         getContentPane().add(txtTrans_ID);
-        txtTrans_ID.setBounds(130, 110, 200, 30);
+        txtTrans_ID.setBounds(190, 130, 200, 30);
 
-        btnInsert.setText("Save Transaction");
-        btnInsert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInsertActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnInsert);
-        btnInsert.setBounds(50, 560, 180, 50);
-
-        btnClearFields.setText("Clear All Fields");
-        btnClearFields.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearFieldsActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnClearFields);
-        btnClearFields.setBounds(50, 500, 180, 50);
-
-        btnRetrieveTransaction.setText("Retrieve a Transaction");
-        btnRetrieveTransaction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRetrieveTransactionActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnRetrieveTransaction);
-        btnRetrieveTransaction.setBounds(240, 500, 180, 50);
-
+        txt_TotalPrice.setEditable(false);
         txt_TotalPrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_TotalPrice.setText("prdTotalPrice");
         getContentPane().add(txt_TotalPrice);
-        txt_TotalPrice.setBounds(130, 390, 200, 40);
+        txt_TotalPrice.setBounds(190, 420, 200, 40);
 
+        txtTrans_BasePrice.setEditable(false);
         txtTrans_BasePrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtTrans_BasePrice.setText("prd base price");
         getContentPane().add(txtTrans_BasePrice);
-        txtTrans_BasePrice.setBounds(130, 280, 200, 40);
+        txtTrans_BasePrice.setBounds(190, 300, 200, 40);
 
+        btnBrowseProduct.setBackground(new java.awt.Color(153, 204, 255));
+        btnBrowseProduct.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnBrowseProduct.setText("Browse Product");
         btnBrowseProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,25 +210,101 @@ protected Boolean TRANS_PROCESSED = false;
             }
         });
         getContentPane().add(btnBrowseProduct);
-        btnBrowseProduct.setBounds(130, 220, 200, 30);
+        btnBrowseProduct.setBounds(190, 240, 200, 30);
 
+        jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Product ID");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(30, 130, 150, 26);
+
+        jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Product Name");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(30, 210, 150, 26);
+
+        jLabel5.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Product Base Price");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(0, 310, 180, 26);
+
+        jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Product Quantity");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(10, 350, 170, 26);
+
+        jLabel7.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Product Total Price");
+        getContentPane().add(jLabel7);
+        jLabel7.setBounds(20, 430, 160, 26);
+
+        btnCompute.setBackground(new java.awt.Color(153, 204, 255));
+        btnCompute.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnCompute.setText("Compute");
+        btnCompute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComputeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCompute);
+        btnCompute.setBounds(190, 380, 200, 30);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        btnClearFields.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnClearFields.setText("Clear All Fields");
+        btnClearFields.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearFieldsActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnClearFields, java.awt.BorderLayout.PAGE_END);
+
+        btnRetrieveTransaction.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnRetrieveTransaction.setText("Retrieve a Transaction");
+        btnRetrieveTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetrieveTransactionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRetrieveTransaction, java.awt.BorderLayout.PAGE_START);
+
+        btnInsert.setBackground(new java.awt.Color(204, 255, 204));
+        btnInsert.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnInsert.setText("Save Transaction");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnInsert, java.awt.BorderLayout.CENTER);
+
+        btnCancel.setBackground(new java.awt.Color(255, 204, 204));
+        btnCancel.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancel);
-        btnCancel.setBounds(240, 560, 180, 50);
+        jPanel1.add(btnCancel, java.awt.BorderLayout.LINE_END);
 
-        setSize(new java.awt.Dimension(495, 710));
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(30, 490, 380, 130);
+
+        setSize(new java.awt.Dimension(473, 710));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-    TRANS_DATE = String.valueOf(System.currentTimeMillis());
+    
+        TRANS_DATE = String.valueOf(System.currentTimeMillis());
     try {
-        sai.sql = "INSERT INTO `transaction`(`trans_ID`, `trans_Product`, `trans_Quantity`,`trans_TotalPrice`, `trans_Client`, `trans_Date`, `trans_Processed`) VALUES (?,?,?,?,?,?,?)";
+        sai.sql = "INSERT INTO `transactions`(`trans_ID`, `trans_Product`, `trans_Quantity`,`trans_TotalPrice`, `trans_Client`, `trans_Date`, `trans_Processed`) VALUES (?,?,?,?,?,?,?)";
     
         sai.pStmt = sai.chainSmokersConnection().prepareStatement(sai.sql);
         sai.pStmt.setInt(1,TRANS_ID);
@@ -309,10 +368,9 @@ protected Boolean TRANS_PROCESSED = false;
             ResultSet qqrs = stmt.executeQuery(sai.sql);
             
             table_Display.setModel(hatsune.tableModelMaker(qqrs));
+            sai.fixThisFrameOrYourLife(400, 275, false, true, this, jFrame_BrowseProduct);
             
-            jFrame_BrowseProduct.setPreferredSize(new Dimension(400, 275));
-            jFrame_BrowseProduct.setResizable(false);
-            jFrame_BrowseProduct.setVisible(true);
+
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(frm_EmpForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -333,6 +391,14 @@ protected Boolean TRANS_PROCESSED = false;
         openThis.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnComputeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComputeActionPerformed
+        // TODO add your handling code here:
+        this.a = Double.parseDouble(txtTrans_BasePrice.getText());
+        this.b = Double.parseDouble(txtTrans_Quantity.getText());
+        c = a*b;
+        txt_TotalPrice.setText(Double.toString(c));
+    }//GEN-LAST:event_btnComputeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,12 +440,19 @@ protected Boolean TRANS_PROCESSED = false;
     private javax.swing.JButton btnBrowseProduct;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClearFields;
+    private javax.swing.JButton btnCompute;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnRetrieveTransaction;
     private javax.swing.JButton btn_UseThisProduct;
     private javax.swing.JFrame jFrame_BrowseProduct;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table_Display;
     private javax.swing.JTextField txtTrans_BasePrice;

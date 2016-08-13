@@ -23,32 +23,56 @@ public class dataForModifyPassword {
     }
     */
     
+    /**
+     * All this data is for
+     * Transferring data FROM LOGIN
+     * TO -> Mainmenu and stuff
+     * 
+     */
     public dataForModifyPassword(){
     }
     
-    //These are the accessor methods..
+    /**
+     * Accesses variable UserName
+     * @return userName
+     */
     public String getUserName(){
         return userName;
     }
-    
+    /**
+     * Accesses variable Password
+     * @return password
+     */
     public String getPassword(){
         return password;
     }
-    
+    /**
+     * Accesses variable UserType
+     * @return userType
+     */
     public String getUserType(){
         return userType;
     }
-    //these are the mutator methods..
-    public void setUserName(String userName){
-        this.userName = userName;
+    /**
+     * Mutates variable UserName
+     * @param in 
+     */
+    public void setUserName(String in){
+        this.userName = in;
     }
-    
-    public void setPassword(String password){
-        this.password = password;
+    /**
+     * Mutates variable Password
+     * @param in 
+     */
+    public void setPassword(String in){
+        this.password = in;
     }
-    
-    public void setUserType(String userType){
-        this.userType = userType;
+    /**
+     * Mutates variable UserType
+     * @param in 
+     */
+    public void setUserType(String in){
+        this.userType = in;
     }
     
 }

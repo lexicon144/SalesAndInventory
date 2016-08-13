@@ -45,7 +45,6 @@ SalesAndInventory sai = new SalesAndInventory();
         txt_newpass = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         txtGreeting = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         txt_FromTheOtherSide = new javax.swing.JLabel();
         txt_Username = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -53,6 +52,7 @@ SalesAndInventory sai = new SalesAndInventory();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
+        btn_ChangePassword.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
         btn_ChangePassword.setText("Change Password");
         btn_ChangePassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,15 +60,19 @@ SalesAndInventory sai = new SalesAndInventory();
             }
         });
         getContentPane().add(btn_ChangePassword);
-        btn_ChangePassword.setBounds(50, 450, 150, 40);
+        btn_ChangePassword.setBounds(50, 450, 370, 40);
 
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Old Password");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(50, 290, 100, 16);
+        jLabel1.setBounds(50, 280, 370, 26);
 
+        jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("New Password");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(50, 360, 100, 16);
+        jLabel2.setBounds(50, 350, 370, 26);
 
         txt_oldpass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txt_oldpass);
@@ -83,27 +87,22 @@ SalesAndInventory sai = new SalesAndInventory();
         getContentPane().add(jLabel3);
         jLabel3.setBounds(100, 10, 300, 60);
 
+        txtGreeting.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         txtGreeting.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtGreeting.setText("Hello! ");
         txtGreeting.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(txtGreeting);
         txtGreeting.setBounds(50, 120, 370, 90);
 
-        jButton2.setText("debug only");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton2);
-        jButton2.setBounds(300, 460, 120, 25);
-
+        txt_FromTheOtherSide.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         txt_FromTheOtherSide.setText("FromTheOtherSide");
         getContentPane().add(txt_FromTheOtherSide);
         txt_FromTheOtherSide.setBounds(50, 80, 370, 40);
         getContentPane().add(txt_Username);
         txt_Username.setBounds(50, 240, 370, 40);
 
+        jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Username");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(50, 220, 370, 20);
@@ -140,13 +139,6 @@ SalesAndInventory sai = new SalesAndInventory();
             
         }
     }//GEN-LAST:event_btn_ChangePasswordActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        frm_mainmenu openMainMenu = new frm_mainmenu();
-            openMainMenu.setVisible(true);
-            dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,7 +178,6 @@ SalesAndInventory sai = new SalesAndInventory();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_ChangePassword;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

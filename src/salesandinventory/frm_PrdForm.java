@@ -167,9 +167,6 @@ ResultSet rs;
         table_supplier = new javax.swing.JTable();
         btnUseThisSupplier = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        btnRegisterPRD = new javax.swing.JButton();
-        btn_UpdatePrd = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
         txtBarcode = new javax.swing.JTextField();
         txtPrdName = new javax.swing.JTextField();
         txtPrdManufacturer = new javax.swing.JTextField();
@@ -191,11 +188,15 @@ ResultSet rs;
         txtPrdTotalPrice = new javax.swing.JTextField();
         txtPrdDIscountedPrice = new javax.swing.JTextField();
         cmbDiscountPrice = new javax.swing.JComboBox();
-        btnClearAll = new javax.swing.JButton();
-        btnSearchID = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         btnBrowseManufacturer = new javax.swing.JButton();
         btnBrowseSupplier = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btnRegisterPRD = new javax.swing.JButton();
+        btnClearAll = new javax.swing.JButton();
+        btnSearchID = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btn_UpdatePrd = new javax.swing.JButton();
 
         browse_Manufacturer.setAlwaysOnTop(true);
         browse_Manufacturer.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
@@ -300,151 +301,130 @@ ResultSet rs;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        btnRegisterPRD.setText("Register Product");
-        btnRegisterPRD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegisterPRDActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnRegisterPRD);
-        btnRegisterPRD.setBounds(10, 540, 130, 50);
-
-        btn_UpdatePrd.setText("Update Product");
-        btn_UpdatePrd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_UpdatePrdActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_UpdatePrd);
-        btn_UpdatePrd.setBounds(150, 540, 130, 50);
-
-        btnCancel.setText("Cancel");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnCancel);
-        btnCancel.setBounds(220, 600, 200, 50);
-
         txtBarcode.setEditable(false);
+        txtBarcode.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBarcode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtBarcode);
-        txtBarcode.setBounds(200, 60, 170, 30);
+        txtBarcode.setBounds(200, 100, 220, 40);
 
+        txtPrdName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPrdName);
-        txtPrdName.setBounds(200, 110, 170, 30);
+        txtPrdName.setBounds(200, 150, 220, 40);
 
+        txtPrdManufacturer.setEditable(false);
+        txtPrdManufacturer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdManufacturer.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPrdManufacturer.setToolTipText("");
         getContentPane().add(txtPrdManufacturer);
-        txtPrdManufacturer.setBounds(200, 170, 170, 30);
+        txtPrdManufacturer.setBounds(200, 230, 220, 40);
 
+        txtPrdDesc.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdDesc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPrdDesc);
-        txtPrdDesc.setBounds(200, 140, 170, 30);
+        txtPrdDesc.setBounds(200, 190, 220, 40);
 
+        txtPrdSupplier.setEditable(false);
+        txtPrdSupplier.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdSupplier.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPrdSupplier);
-        txtPrdSupplier.setBounds(200, 240, 170, 30);
+        txtPrdSupplier.setBounds(200, 320, 220, 40);
 
+        txtPrdQuantity.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPrdQuantity);
-        txtPrdQuantity.setBounds(200, 310, 170, 30);
+        txtPrdQuantity.setBounds(200, 390, 220, 40);
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("product registration");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(40, 0, 350, 50);
+        jLabel1.setBounds(50, 10, 350, 50);
 
+        jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Barcode");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(140, 70, 50, 16);
+        jLabel2.setBounds(130, 110, 60, 26);
 
+        jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Product Name");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(110, 120, 80, 16);
+        jLabel3.setBounds(10, 160, 180, 26);
 
+        jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Product Description");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(80, 150, 110, 16);
+        jLabel4.setBounds(-20, 200, 210, 26);
 
+        jLabel5.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Product Manufacturer");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(60, 180, 130, 16);
+        jLabel5.setBounds(-40, 240, 230, 26);
 
+        jLabel6.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Product Supplier");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(90, 250, 100, 20);
+        jLabel6.setBounds(-10, 330, 200, 30);
 
+        jLabel7.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Quantity");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(100, 320, 80, 16);
+        jLabel7.setBounds(0, 400, 180, 30);
 
+        jLabel8.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Original Price");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(110, 350, 80, 16);
+        jLabel8.setBounds(-40, 440, 220, 26);
 
+        jLabel9.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Total Price");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(110, 380, 80, 16);
+        jLabel9.setBounds(0, 480, 180, 26);
 
+        jLabel10.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("Discount");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(140, 410, 50, 16);
+        jLabel10.setBounds(30, 520, 150, 26);
 
+        jLabel11.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 24)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("Discounted Price");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(90, 440, 100, 20);
+        jLabel11.setBounds(-20, 550, 200, 40);
 
+        txtPrdOriginalPrice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdOriginalPrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPrdOriginalPrice);
-        txtPrdOriginalPrice.setBounds(200, 340, 170, 30);
+        txtPrdOriginalPrice.setBounds(200, 430, 220, 40);
 
         txtPrdTotalPrice.setEditable(false);
+        txtPrdTotalPrice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdTotalPrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPrdTotalPrice);
-        txtPrdTotalPrice.setBounds(200, 370, 170, 30);
+        txtPrdTotalPrice.setBounds(200, 470, 220, 40);
 
         txtPrdDIscountedPrice.setEditable(false);
+        txtPrdDIscountedPrice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPrdDIscountedPrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtPrdDIscountedPrice);
-        txtPrdDIscountedPrice.setBounds(200, 430, 170, 30);
+        txtPrdDIscountedPrice.setBounds(200, 550, 220, 40);
 
+        cmbDiscountPrice.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         cmbDiscountPrice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECT", "5%", "10%", "25%" }));
         getContentPane().add(cmbDiscountPrice);
-        cmbDiscountPrice.setBounds(200, 400, 170, 30);
+        cmbDiscountPrice.setBounds(200, 510, 220, 40);
 
-        btnClearAll.setText("Clear All");
-        btnClearAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearAllActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnClearAll);
-        btnClearAll.setBounds(290, 540, 130, 50);
-
-        btnSearchID.setText("Search Product");
-        btnSearchID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchIDActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnSearchID);
-        btnSearchID.setBounds(10, 600, 200, 50);
-
+        jButton1.setBackground(new java.awt.Color(153, 204, 255));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jButton1.setText("Compute");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -452,8 +432,10 @@ ResultSet rs;
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(200, 470, 170, 25);
+        jButton1.setBounds(200, 590, 220, 25);
 
+        btnBrowseManufacturer.setBackground(new java.awt.Color(153, 204, 255));
+        btnBrowseManufacturer.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnBrowseManufacturer.setText("Browse Manufactures");
         btnBrowseManufacturer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -461,8 +443,10 @@ ResultSet rs;
             }
         });
         getContentPane().add(btnBrowseManufacturer);
-        btnBrowseManufacturer.setBounds(200, 200, 170, 25);
+        btnBrowseManufacturer.setBounds(200, 270, 220, 25);
 
+        btnBrowseSupplier.setBackground(new java.awt.Color(153, 204, 255));
+        btnBrowseSupplier.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnBrowseSupplier.setText("Browse Suppliers");
         btnBrowseSupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -470,9 +454,63 @@ ResultSet rs;
             }
         });
         getContentPane().add(btnBrowseSupplier);
-        btnBrowseSupplier.setBounds(200, 270, 170, 25);
+        btnBrowseSupplier.setBounds(200, 360, 220, 25);
 
-        setSize(new java.awt.Dimension(451, 710));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        btnRegisterPRD.setBackground(new java.awt.Color(204, 255, 204));
+        btnRegisterPRD.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnRegisterPRD.setText("Register Product");
+        btnRegisterPRD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterPRDActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegisterPRD, java.awt.BorderLayout.CENTER);
+
+        btnClearAll.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnClearAll.setText("Clear All");
+        btnClearAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearAllActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnClearAll, java.awt.BorderLayout.PAGE_START);
+
+        btnSearchID.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnSearchID.setText("Search Product");
+        btnSearchID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchIDActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSearchID, java.awt.BorderLayout.PAGE_END);
+
+        btnCancel.setBackground(new java.awt.Color(255, 204, 204));
+        btnCancel.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, java.awt.BorderLayout.LINE_END);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(30, 700, 390, 140);
+
+        btn_UpdatePrd.setBackground(new java.awt.Color(255, 255, 204));
+        btn_UpdatePrd.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btn_UpdatePrd.setText("Update Product (ADMIN)");
+        btn_UpdatePrd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_UpdatePrdActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_UpdatePrd);
+        btn_UpdatePrd.setBounds(30, 640, 390, 50);
+
+        setSize(new java.awt.Dimension(463, 911));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -588,6 +626,7 @@ ResultSet rs;
 
     private void btnSearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchIDActionPerformed
         // TODO add your handling code here:
+        
         searchThisID = JOptionPane.showInputDialog("Enter the Product ID that you want to modify: \nNote: This is the same as the Barcode of the Product. ");
         
         if (searchThisID != null){
@@ -637,7 +676,7 @@ ResultSet rs;
             
             table_supplier.setModel(hatsune.tableModelMaker(qqrs));
             
-            browse_Supplier.setLocationRelativeTo(null);
+            browse_Supplier.setLocationRelativeTo(this);
             browse_Supplier.setPreferredSize(new Dimension(421, 351));
             browse_Supplier.setResizable(false);
             browse_Supplier.setVisible(true);
@@ -655,7 +694,7 @@ ResultSet rs;
             ResultSet qqrs = stmt.executeQuery(sai.sql);
             
             table_Manufacturer.setModel(hatsune.tableModelMaker(qqrs));
-            browse_Manufacturer.setLocationRelativeTo(null);
+            browse_Manufacturer.setLocationRelativeTo(this);
             browse_Manufacturer.setPreferredSize(new Dimension(400, 275));
             browse_Manufacturer.setResizable(false);
             browse_Manufacturer.setVisible(true);
@@ -742,6 +781,7 @@ ResultSet rs;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table_Manufacturer;

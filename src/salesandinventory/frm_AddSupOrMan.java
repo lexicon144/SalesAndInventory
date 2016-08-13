@@ -53,80 +53,96 @@ RNG_Sama rngSama = new RNG_Sama();
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnAddSupplier = new javax.swing.JButton();
-        btnAddManufacturer = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
         txtName = new javax.swing.JTextField();
         txtID = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnAddSupplier = new javax.swing.JButton();
         btnClearAll = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnAddManufacturer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(null);
 
-        btnAddSupplier.setText("Add a Supplier");
-        btnAddSupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddSupplierActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnAddSupplier);
-        btnAddSupplier.setBounds(120, 340, 120, 50);
-
-        btnAddManufacturer.setText("Add a Manufacturer");
-        btnAddManufacturer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddManufacturerActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnAddManufacturer);
-        btnAddManufacturer.setBounds(250, 340, 150, 50);
-
-        btnCancel.setText("Cancel");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnCancel);
-        btnCancel.setBounds(410, 340, 80, 50);
-
+        txtName.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         txtName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(txtName);
         txtName.setBounds(210, 220, 270, 40);
 
         txtID.setEditable(false);
+        txtID.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         txtID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtID.setText("jTextField2");
         getContentPane().add(txtID);
         txtID.setBounds(210, 130, 270, 40);
 
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ID");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(340, 110, 41, 16);
+        jLabel1.setBounds(310, 100, 80, 30);
 
+        jLabel2.setFont(new java.awt.Font("Tw Cen MT", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Name");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(330, 200, 33, 16);
+        jLabel2.setBounds(290, 190, 110, 30);
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 48)); // NOI18N
         jLabel3.setText("Add a New Supplier or Manufacturer");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(30, 20, 640, 60);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        btnAddSupplier.setBackground(new java.awt.Color(255, 255, 204));
+        btnAddSupplier.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnAddSupplier.setText("Add a Supplier");
+        btnAddSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSupplierActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAddSupplier, java.awt.BorderLayout.LINE_START);
+
+        btnClearAll.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
         btnClearAll.setText("Clear");
         btnClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearAllActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClearAll);
-        btnClearAll.setBounds(500, 340, 70, 50);
+        jPanel1.add(btnClearAll, java.awt.BorderLayout.PAGE_START);
 
-        setSize(new java.awt.Dimension(697, 452));
+        btnCancel.setBackground(new java.awt.Color(255, 204, 204));
+        btnCancel.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancel, java.awt.BorderLayout.PAGE_END);
+
+        btnAddManufacturer.setBackground(new java.awt.Color(204, 255, 204));
+        btnAddManufacturer.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
+        btnAddManufacturer.setText("Add a Manufacturer");
+        btnAddManufacturer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddManufacturerActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAddManufacturer, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(160, 290, 370, 150);
+
+        setSize(new java.awt.Dimension(697, 500));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -202,6 +218,7 @@ RNG_Sama rngSama = new RNG_Sama();
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
